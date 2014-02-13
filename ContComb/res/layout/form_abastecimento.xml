@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BackgroundLinearLayout"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TextView
+        style="@style/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Abastecimento" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carro" />
+
+    <Spinner
+        android:id="@+id/spCarros"
+        android:layout_width="fill_parent"
+        android:layout_height="54px" >
+    </Spinner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Odômetro (Km) *" />
+
+    <EditText
+        android:id="@+id/etOdometro"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Litros *" />
+
+    <EditText
+        android:id="@+id/etLitros"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Observações" />
+
+    <EditText
+        android:id="@+id/etObs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:lines="3" />
+
+<!--     <DatePicker -->
+<!--         android:id="@+id/etData" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_gravity="center_horizontal" -->
+<!--         android:calendarViewShown="false" -->
+<!--         android:scaleX="0.5" -->
+<!--         android:scaleY="0.5" /> -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnGravaAbastecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"
+            android:background="@drawable/blue_button"
+            android:text="Salvar" />
+
+        <Button
+            android:id="@+id/btnAbastecimetos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"
+            android:background="@drawable/black_button"
+            android:text="Voltar" />
+    </LinearLayout>
+
+</LinearLayout>
