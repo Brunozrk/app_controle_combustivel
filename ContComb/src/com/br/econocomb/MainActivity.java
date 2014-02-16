@@ -1,12 +1,12 @@
 package com.br.econocomb;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
-import android.content.ComponentName;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,33 +18,46 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	// Date Dialog
+	int dpAno;
+	int dpMes;
+	int dpDia;
+	TextView tvData;
+	Button btnDatePicker;
+	StringBuilder data;
+	final int DATE_DIALOG_ID = 0;
+	
 	BancoDeDados banco_de_dados;
 	Button btnCarros, btnAbastecimentos, btnTelaInicial, btnFormCarro, btnGravaCarro, btnFormAbastecimento, btnGravaAbastecimento;
+
 	EditText etMarca, etFiltro, etLitros, etOdometro, etObs;
 	
+	// Carros
 	ListView listContentCarros;
-
 	int idCarro = 0;
+	String campos_carro[] = {"marca", "_id"};
 	
+	// Abastecimentos
 	ListView listContentAbastecimentos;
-
 	int idAbastecimento = 0;
-	
+	String campos_abastecimento[] = {"strftime('%d/%m/%Y',date)", "odometro", "litros", "media", "obs", "_id"};
+
+	// Spinner carros
  	Spinner spCarros;
+ 	Cursor cursorSpinnerCarro = null;
  	
  	Cursor cursor = null;
- 	Cursor cursorSpinnerCarro = null;
 	CursorAdapter dataSource;
-	String campos_carro[] = {"marca", "_id"};
-	String campos_abastecimento[] = {"strftime('%d/%m/%Y',date)", "odometro", "litros", "media", "obs", "_id"};
 	Uteis util = new Uteis();
 
 	int pagina_atual = 0;
@@ -66,8 +79,6 @@ public class MainActivity extends Activity {
 		
 		criaBotaoCarros();
 		criaBotaoAbastecimentos();
-
-
 	}
 	
 	// ------------------------------------------------------------------------
@@ -246,10 +257,13 @@ public class MainActivity extends Activity {
 			btnFormAbastecimento.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					Calendar c = Calendar.getInstance();
+					atualizaValoresData(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 					chamaCadastroAbastecimento();
 				}
 			});
 			
+			// Captura e filtra
 			capturaItemSelecionadoSpinnerParaFiltrar();
 			
 			listContentAbastecimentos.setOnItemClickListener(new OnItemClickListener() {
@@ -295,6 +309,15 @@ public class MainActivity extends Activity {
 		inicializaDados();
 		carregaSpinnerCarro();
 		capturaItemSelecionadoSpinnerParaGravar();
+
+        // Adiciona listener para o botao do datepicker
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
+
+        atualizaTvData();
 		
 		// BOTÃO GRAVAR
 		btnGravaAbastecimento.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +334,7 @@ public class MainActivity extends Activity {
 						util.mostraMensagem(Messages.CAMPO_NAO_PODE_SER_ZERO, MainActivity.this);
 					}
 						else{
-							banco_de_dados.gravarAbastecimentoQuery(MainActivity.this, Double.parseDouble(odometro), Double.parseDouble(litros), obs, idCarro, idAbastecimento);
+							banco_de_dados.gravarAbastecimentoQuery(MainActivity.this, Double.parseDouble(odometro), Double.parseDouble(litros), obs, data, idCarro, idAbastecimento);
 							chamaListaAbastecimentos();
 						}
 				}  catch (Exception e) {
@@ -325,6 +348,28 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
+	 * Atualiza a textview tvData e a variavel data 
+	 */
+    private void atualizaTvData() {
+    	data =  new StringBuilder().append(dpDia).append("/")
+							       .append(dpMes + 1).append("/") // Month is 0 based so add 1
+							       .append(dpAno);
+    	
+        tvData.setText(data);
+    }
+
+    /**
+     * Callback quando o usuário escolhe uma data no datepickerdialog
+     */
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int ano, int mes, int dia) {
+                	atualizaValoresData(dia, mes, ano);
+                    atualizaTvData();
+                }
+            };
+	
+	/**
 	 * Chama tela de edição
 	 * @param position
 	 */
@@ -334,6 +379,12 @@ public class MainActivity extends Activity {
 			cursor.moveToPosition(position);
 			idAbastecimento = cursor.getInt(cursor.getColumnIndex("_id"));
 			int postionCursorSpinnerCarro = cursorSpinnerCarro.getPosition();
+			
+			// Atualiza data para a data do registro a ser editado
+			String dataColumn = cursor.getString(cursor.getColumnIndex("strftime('%d/%m/%Y',date)"));
+			atualizaValoresData(Integer.parseInt(dataColumn.split("/")[0]), Integer.parseInt(dataColumn.split("/")[1]) - 1, Integer.parseInt(dataColumn.split("/")[2]));
+			Calendar c = Calendar.getInstance();
+			c.set(dpAno, dpMes, dpDia);
 			
 			// CARREGA CADASTRO
 			chamaCadastroAbastecimento();
@@ -405,6 +456,9 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * Captura item selecionado do spinner e filtra a listagem
+	 */
 	public void capturaItemSelecionadoSpinnerParaFiltrar(){
 		spCarros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			
@@ -462,6 +516,33 @@ public class MainActivity extends Activity {
 			break;
 		}
     }
+
+    /**
+     * Cria datepicker com a data que esta na variavel 'data'
+     */
+    @Override
+    protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case DATE_DIALOG_ID:
+	    	return new DatePickerDialog(this,
+					                     mDateSetListener,
+					                     dpAno, dpMes, dpDia);
+	    }
+	    return null;
+	}
+    
+    /**
+     * Atualiza datepicker com a data que esta na variavel 'data'
+     */
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+    	switch (id) {
+    	case DATE_DIALOG_ID:
+    		((DatePickerDialog) dialog).updateDate(dpAno,
+								    	           dpMes,
+								    	           dpDia);
+    	}
+    }
 	
 	/**
 	 * Cria botão que vai para a tela inicial
@@ -476,23 +557,39 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
+	 * Atualiza variáveis referente a data
+	 * @param dia
+	 * @param mes
+	 * @param ano
+	 */
+	public void atualizaValoresData(int dia, int mes, int ano){
+	    dpDia = dia;
+	    dpMes = mes;
+	    dpAno = ano;
+	}
+	
+	/**
 	 * Inicializa dados (botões, edit text, etc)
 	 */
 	public void inicializaDados() {
 		btnTelaInicial = (Button) findViewById(R.id.btnTelaInicial);
 		etFiltro= (EditText) findViewById(R.id.etFiltro);
 		
-		// -------------------------------- CARROS --------------------------------
+		// -------------------------------- ABASTECIMENTOS --------------------------------
 		
 		// Botões
 		btnAbastecimentos = (Button) findViewById(R.id.btnAbastecimetos);
 		btnFormAbastecimento = (Button) findViewById(R.id.btnFormAbastecimento);
 		btnGravaAbastecimento = (Button) findViewById(R.id.btnGravaAbastecimento);
+		btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
 		
 		// Edit Text
 		etLitros = (EditText) findViewById(R.id.etLitros);
 		etOdometro = (EditText) findViewById(R.id.etOdometro);
 		etObs = (EditText) findViewById(R.id.etObs);
+
+		// Text View
+        tvData = (TextView) findViewById(R.id.tvData);
 		
 		// ListView
 		listContentAbastecimentos = (ListView) findViewById(R.id.listViewAbastecimentos);

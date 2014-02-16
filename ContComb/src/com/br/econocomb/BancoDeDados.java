@@ -51,7 +51,10 @@ public class BancoDeDados{
 		}
 	}
 	
-	// FECHA CONEXAO COM O BANCO DE DADOS
+	/**
+	 * Fecha conexão com o banco
+	 * @param context
+	 */
 	public void fechaBancoDeDados(Context context) {
 		try {
 			bancoDeDados.close();
@@ -63,11 +66,11 @@ public class BancoDeDados{
 	// ------------------------------------------------------------------------
 	// -------------------------------- CARROS --------------------------------
 	// ------------------------------------------------------------------------
-	
+
 	/**
 	 * Busca todos os carros
 	 * @param campos_carro
-	 * @return cursor
+	 * @return
 	 */
 	public Cursor buscaCarrosQuery(String [] campos_carro){
 		return  bancoDeDados.query(TABELA_CARRO, 
@@ -112,7 +115,7 @@ public class BancoDeDados{
 	}	
 	
 	/**
-	 * Excluir um carro do banco
+	 * Excluir um carro do banco e todos abastecimentos relacionados
 	 * @param context
 	 * @param idCarro
 	 */
@@ -132,7 +135,7 @@ public class BancoDeDados{
 	}
 	
 	/**
-	 * Filtra a listagem de carros
+	 * Filtra a listagem de carros por marca
 	 * @param filtro
 	 * @param campos_carro
 	 * @return
@@ -161,8 +164,8 @@ public class BancoDeDados{
 	
 	/**
 	 * Busca todos os abastecimentos
-	 * @param campos_carro
-	 * @return cursor
+	 * @param campos_abastecimento
+	 * @return
 	 */
 	public Cursor buscaAbastecimentosQuery(String [] campos_abastecimento){
 		return  bancoDeDados.query(TABELA_ABASTECIMENTO, 
@@ -176,9 +179,9 @@ public class BancoDeDados{
 	}
 	
 	/**
-	 * Filtra a listagem de abastecimentos
-	 * @param filtro
-	 * @param campos_carro
+	 * Filtra a listagem de abastecimentos pelo id do carro
+	 * @param idCarro
+	 * @param campos_abastecimento
 	 * @return
 	 */
 	public Cursor filtraAbastecimentoPorCarroQuery(int idCarro, String [] campos_abastecimento){
@@ -189,17 +192,21 @@ public class BancoDeDados{
 	    						  new String[]{Integer.toString(idCarro)}, 
 	    						  null, 
 	    						  null, 
-	    						  "_id DESC");
+	    						  "date DESC");
 	    
 	}
 	
 	/**
 	 * Grava (insert ou update) um abastecimento no banco
 	 * @param context
-	 * @param marca
+	 * @param odometro
+	 * @param litros
+	 * @param obs
+	 * @param data
 	 * @param idCarro
+	 * @param idAbastecimento
 	 */
-	public void gravarAbastecimentoQuery(Context context, Double odometro, Double litros, String obs, int idCarro,  int idAbastecimento) {
+	public void gravarAbastecimentoQuery(Context context, Double odometro, Double litros, String obs, StringBuilder data, int idCarro,  int idAbastecimento) {
 		try {
 
 			NumberFormat nf = NumberFormat.getInstance();
@@ -208,15 +215,24 @@ public class BancoDeDados{
 			String sql = "";
 			String sucesso = "";
 			String media = nf.format(odometro / litros);
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
-			String date = sdf.format(new Date());
+			Date objDate = new Date();
+			String[] dataSplit = data.toString().split("/");
+			
+			objDate.setDate(Integer.parseInt(dataSplit[0]));
+			objDate.setMonth(Integer.parseInt(dataSplit[1]) - 1);
+			objDate.setYear(Integer.parseInt(dataSplit[2]) - 1900);
+			String date = sdf.format(objDate);
+			
 			if (idAbastecimento != 0) {
 				sql = "UPDATE " + TABELA_ABASTECIMENTO  +
 						  			  " SET odometro = '" + odometro + "', " +
 									  "litros = '" + litros + "', " +
 									  "media = '" + media + "', " +
 									  "obs = '" + obs + "', " +
+									  "date = '" + date + "', " +
 									  "carro_id = '" + idCarro + "'" +
 									  " WHERE _id = " + idAbastecimento;
 				sucesso = Messages.SUCESSO_EDICAO;
@@ -241,11 +257,11 @@ public class BancoDeDados{
 			util.mostraMensagem(Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
 		}
 	}
-	
+
 	/**
 	 * Excluir um abastecimento do banco
 	 * @param context
-	 * @param idCarro
+	 * @param idAbastecimento
 	 */
 	public void excluirAbastecimentoQuery(Context context, int idAbastecimento) {
 		try {
