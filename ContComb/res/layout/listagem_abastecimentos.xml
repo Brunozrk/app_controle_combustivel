@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/BackgroundLinearLayout"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".AbastecimentoActivity" >
 
     <TextView
         style="@style/title"

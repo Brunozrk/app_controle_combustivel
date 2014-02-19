@@ -1,14 +1,24 @@
-package com.br.econocomb;
+package com.br.uteis;
+
+import java.util.concurrent.Callable;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 public class Uteis {
 	
-	// MOSTRA MENSAGEM NA TELA
+	/**
+	 * MOSTRA MENSAGEM NA TELA 
+	 * @param msg
+	 * @param context
+	 */
 	public void mostraMensagem(String msg, Context context) {
 		AlertDialog.Builder mensagem = new AlertDialog.Builder(context);
 		mensagem.setTitle("AVISO!");
@@ -17,8 +27,12 @@ public class Uteis {
 		mensagem.show();
 	}
 	
-
-	// MOSTRA MENSAGEM EM TOAST
+	
+	/**
+	 * MOSTRA MENSAGEM EM TOAST 
+	 * @param msg
+	 * @param context
+	 */
 	public void mostraToast(String msg, Context context) {
 
 		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
@@ -64,5 +78,23 @@ public class Uteis {
 	            dialog.show();
 
 	        }
+	
+	public void animation_slide_out_right(Context context, View view, final Runnable func){
+	    final Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right); 
+	    view.startAnimation(animation);
+	    Handler handle = new Handler();
+	    handle.postDelayed(new Runnable() {
+		 
+		    @Override
+		    public void run() {
+		    	try {
+					func.run();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+	    }, animation.getDuration());
+	}
 	
 }

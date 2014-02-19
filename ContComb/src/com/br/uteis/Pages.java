@@ -1,4 +1,4 @@
-package com.br.econocomb;
+package com.br.uteis;
 
 public interface Pages {
 
