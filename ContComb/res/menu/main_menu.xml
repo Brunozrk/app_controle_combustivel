@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- New / will display always -->
+    <item
+        android:id="@+id/menu_novo"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="ifRoom"
+        android:title="Novo"
+        android:visible="false"/>
+    
+    <!-- New / will display always -->
+    <item
+        android:id="@+id/menu_grava"
+        android:icon="@drawable/ic_action_save"
+        android:showAsAction="ifRoom"
+        android:title="Salvar"
+        android:visible="false"/>
+
+</menu>

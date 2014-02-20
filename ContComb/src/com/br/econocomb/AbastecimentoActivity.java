@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.br.uteis.BancoDeDados;
-import com.br.uteis.Messages;
-import com.br.uteis.Pages;
-import com.br.uteis.Uteis;
-
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -29,6 +31,12 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.br.uteis.BancoDeDados;
+import com.br.uteis.Messages;
+import com.br.uteis.Pages;
+import com.br.uteis.Uteis;
+import com.br.uteis.Variaveis;
+
 public class AbastecimentoActivity extends Activity {
 
 	// Date Dialog
@@ -41,18 +49,17 @@ public class AbastecimentoActivity extends Activity {
 	final int DATE_DIALOG_ID = 0;
 	
 	BancoDeDados banco_de_dados;
-	Button btnAbastecimentos, btnTelaInicial, btnFormAbastecimento, btnGravaAbastecimento;
 
 	EditText etLitros, etOdometro, etObs;
+	
+	MenuItem menu_novo, menu_grava;
 	
 	int idCarro = 0;
 	int idAbastecimento = 0;
 	int pagina_atual = 0;
-	String campos_carro[] = {"marca", "_id"};
 	
 	// Abastecimentos
 	ListView listContentAbastecimentos;
-	String campos_abastecimento[] = {"strftime('%d/%m/%Y',date)", "odometro", "litros", "media", "obs", "_id"};
 
 	// Spinner carros
  	Spinner spCarros;
@@ -63,65 +70,21 @@ public class AbastecimentoActivity extends Activity {
 	Uteis util = new Uteis();
 
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		banco_de_dados = new BancoDeDados(AbastecimentoActivity.this);
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		chamaListaAbastecimentos();
 	}
 	
 	public void chamaListaAbastecimentos(){
 		try {
-			setContentView(R.layout.listagem_abastecimentos);
 			pagina_atual = Pages.LISTAGEM_ABASTECIMENTOS;
-			inicializaDados();
-			carregaSpinnerCarro();
-			criaBotaoTelaInicial();
-			
-			idAbastecimento = 0;
-			
-			btnFormAbastecimento.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Calendar c = Calendar.getInstance();
-					atualizaValoresData(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-					chamaCadastroAbastecimento();
-				}
-			});
-			
-			// Captura e filtra
-			capturaItemSelecionadoSpinnerParaFiltrar();
-			
-			listContentAbastecimentos.setOnItemClickListener(new OnItemClickListener() {
-			    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			    	chamaEdicaoAbastecimento(position);
- 			    }
-			});
-			
-			listContentAbastecimentos.setOnItemLongClickListener(new OnItemLongClickListener() {
-	            public boolean onItemLongClick(AdapterView<?> arg0, final View view, int position, long id) {
-	    			cursor.moveToPosition(position);
-	    			idAbastecimento = cursor.getInt(cursor.getColumnIndex("_id"));
-
-					util.confirm(AbastecimentoActivity.this, 
-							 "Confirmação",
-							 Messages.CONFIRMA_EXCLUSAO, 
-							 "Sim", 
-							 "Não",
-							 new Runnable() {
-								public void run() {
-									banco_de_dados.excluirAbastecimentoQuery(AbastecimentoActivity.this, idAbastecimento);
-									util.animation_slide_out_right(AbastecimentoActivity.this, view, new Runnable() { 
-																									public void run() { 
-																										chamaListaAbastecimentos();
-																									}
-																								});
-								}
-							}, null);
-	    
-	                return true;
-	            }
-	        });
+			invalidateOptionsMenu();
+			carregaListaAbastecimentos();
 			
 		} catch (Exception e) {
 			util.mostraMensagem(Messages.ERRO_LISTAR + e.getMessage(), AbastecimentoActivity.this);
@@ -129,13 +92,55 @@ public class AbastecimentoActivity extends Activity {
 
 	}
 	
+	public void carregaListaAbastecimentos(){
+		setContentView(R.layout.listagem_abastecimentos);
+		inicializaDados();
+		carregaSpinnerCarro();
+		
+		idAbastecimento = 0;
+		
+		// Captura e filtra
+		capturaItemSelecionadoSpinnerParaFiltrar();
+		
+		listContentAbastecimentos.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    	chamaEdicaoAbastecimento(position);
+			    }
+		});
+		
+		listContentAbastecimentos.setOnItemLongClickListener(new OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> arg0, final View view, int position, long id) {
+    			cursor.moveToPosition(position);
+    			idAbastecimento = cursor.getInt(cursor.getColumnIndex("_id"));
+
+				util.confirm(AbastecimentoActivity.this, 
+						 "Confirmação",
+						 Messages.CONFIRMA_EXCLUSAO, 
+						 "Sim", 
+						 "Não",
+						 new Runnable() {
+							public void run() {
+								banco_de_dados.excluirAbastecimentoQuery(AbastecimentoActivity.this, idAbastecimento);
+								util.animation_slide_out_right(AbastecimentoActivity.this, view, new Runnable() { 
+																								public void run() { 
+																									carregaListaAbastecimentos();
+																								}
+																							});
+							}
+						}, null);
+    
+                return true;
+            }
+        });
+	}
 	
 	/**
 	 *  Chama tela de cadastro
 	 */
 	public void chamaCadastroAbastecimento() {
-		setContentView(R.layout.form_abastecimento);
 		pagina_atual = Pages.FORM_ABASTECIMENTO;
+		invalidateOptionsMenu();
+		setContentView(R.layout.form_abastecimento);
 		inicializaDados();
 		carregaSpinnerCarro();
 		capturaItemSelecionadoSpinnerParaGravar();
@@ -149,32 +154,29 @@ public class AbastecimentoActivity extends Activity {
 
         atualizaTvData();
 		
-		// BOTÃO GRAVAR
-		btnGravaAbastecimento.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				try {
-					String litros = etLitros.getText().toString().trim();  
-					String odometro = etOdometro.getText().toString().trim();  
-					String obs = etObs.getText().toString().trim();
-					if (litros.equals("") || odometro.equals("")){
-						util.mostraMensagem(Messages.CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
-					}
-					else if(Double.parseDouble(litros) == 0 || Double.parseDouble(odometro) == 0){
-						util.mostraMensagem(Messages.CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
-					}
-						else{
-							banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, Double.parseDouble(odometro), Double.parseDouble(litros), obs, data, idCarro, idAbastecimento);
-							chamaListaAbastecimentos();
-						}
-				}  catch (Exception e) {
-					util.mostraMensagem(Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
-					capturaItemSelecionadoSpinnerParaGravar();
-				}
+	}
+	
+	public void gravaAbastecimento(){
+		try {
+			String litros = etLitros.getText().toString().trim();  
+			String odometro = etOdometro.getText().toString().trim();  
+			String obs = etObs.getText().toString().trim();
+			if (litros.equals("") || odometro.equals("")){
+				util.mostraMensagem(Messages.CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
 			}
-		});
-		
-		criaBotaoAbastecimentos();
+			else if(Double.parseDouble(litros) == 0 || Double.parseDouble(odometro) == 0){
+				util.mostraMensagem(Messages.CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
+			}
+				else{
+					banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, Double.parseDouble(odometro), Double.parseDouble(litros), obs, data, idCarro, idAbastecimento);
+					InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+					inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+					chamaListaAbastecimentos();
+				}
+		}  catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
+			capturaItemSelecionadoSpinnerParaGravar();
+		}
 	}
 	
 	/**
@@ -230,27 +232,10 @@ public class AbastecimentoActivity extends Activity {
 	}
 	
 	/**
-	 * Cria botão que vai para a listagem de abastecimentos
-	 */
-	public void criaBotaoAbastecimentos(){
-		btnAbastecimentos.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (banco_de_dados.buscaCarrosQuery(campos_carro).getCount() == 0){
-					util.mostraToast(Messages.NAO_HA_CARRO_CADASTRADO, AbastecimentoActivity.this);
-				}else{
-					chamaListaAbastecimentos();
-				}
-			
-			}
-		});
-	}
-	
-	/**
 	 * Carrega spinner com os carros cadastrados
 	 */
 	public void carregaSpinnerCarro(){
-		cursorSpinnerCarro = banco_de_dados.buscaCarrosQuery(campos_carro);
+		cursorSpinnerCarro = banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO);
 		List<String> nomes = new ArrayList<String>();
 		cursorSpinnerCarro.moveToFirst();
 		
@@ -297,11 +282,11 @@ public class AbastecimentoActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 				cursorSpinnerCarro.moveToPosition(position);
 				idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
-				cursor = banco_de_dados.filtraAbastecimentoPorCarroQuery(idCarro, campos_abastecimento);
+				cursor = banco_de_dados.filtraAbastecimentoPorCarroQuery(idCarro, Variaveis.CAMPOS_ABASTECIMENTO);
 				dataSource = new SimpleCursorAdapter(AbastecimentoActivity.this, 
 													R.layout.item_list_abastecimento, 
 													cursor, 
-													campos_abastecimento, 
+													Variaveis.CAMPOS_ABASTECIMENTO, 
 													new int[] { R.id.tvData, R.id.tvOdometro, R.id.tvLitros, R.id.tvMedia, R.id.tvObs});
 				
 				listContentAbastecimentos.setAdapter(dataSource);
@@ -342,18 +327,6 @@ public class AbastecimentoActivity extends Activity {
     }
 	
 	/**
-	 * Cria botão que vai para a tela inicial
-	 */
-	public void criaBotaoTelaInicial() {
-		btnTelaInicial.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				chamaTelaInicial();
-			}
-		});
-	}
-	
-	/**
 	 * Atualiza variáveis referente a data
 	 * @param dia
 	 * @param mes
@@ -380,10 +353,6 @@ public class AbastecimentoActivity extends Activity {
 	public void inicializaDados() {
 		
 		// Botões
-		btnTelaInicial = (Button) findViewById(R.id.btnTelaInicial);
-		btnAbastecimentos = (Button) findViewById(R.id.btnAbastecimetos);
-		btnFormAbastecimento = (Button) findViewById(R.id.btnFormAbastecimento);
-		btnGravaAbastecimento = (Button) findViewById(R.id.btnGravaAbastecimento);
 		btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
 		
 		// Edit Text
@@ -401,10 +370,78 @@ public class AbastecimentoActivity extends Activity {
 	}
 	
 	/**
-	 * Identifica tela atual para enviar para tela correta ao pressionar o botão 'voltar' do android
+	 * Criação do menu no action bar
+	 * @param menu
+	 * @return
+	 */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+	
+    /**
+     * Preparação do menu no action bar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+		menu_novo = menu.findItem(R.id.menu_novo); 
+		menu_grava = menu.findItem(R.id.menu_grava); 
+		
+		switch (pagina_atual) {
+		case Pages.LISTAGEM_ABASTECIMENTOS:
+			menu_novo.setVisible(true);
+			menu_grava.setVisible(false);
+			break;
+		case Pages.FORM_ABASTECIMENTO:
+			menu_novo.setVisible(false);
+			menu_grava.setVisible(true);
+			break;
+		default:
+			menu_novo.setVisible(true);
+			menu_grava.setVisible(false);
+			break;
+		}
+		return true;
+    }
+	
+	/**
+	 * Ações dos botões na action bar
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+        case android.R.id.home:
+        	redirecionaVoltar();
+            return(true);
+        case R.id.menu_novo:
+			Calendar c = Calendar.getInstance();
+			atualizaValoresData(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+            chamaCadastroAbastecimento();
+            return true;
+	    case R.id.menu_grava:
+	    	gravaAbastecimento();
+	        return true;
+		}
+	    return(super.onOptionsItemSelected(item));
+	}
+	
+	/**
+	 * Sobrescreve método do botão voltar do android
 	 */
 	@Override
     public void onBackPressed() {
+		redirecionaVoltar();
+    }
+	
+	/**
+	 * Identifica tela atual para enviar para tela correta ao pressionar o botão 'voltar' do android
+	 */
+	public void redirecionaVoltar(){
 		switch (pagina_atual) {
 		case Pages.LISTAGEM_ABASTECIMENTOS:
 			chamaTelaInicial();
@@ -417,5 +454,5 @@ public class AbastecimentoActivity extends Activity {
 			finish();
 			break;
 		}
-    }
+	}
 }

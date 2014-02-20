@@ -1,13 +1,17 @@
 package com.br.econocomb;
 
-import com.br.uteis.BancoDeDados;
-import com.br.uteis.Uteis;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+
+import com.br.uteis.BancoDeDados;
+import com.br.uteis.Messages;
+import com.br.uteis.Uteis;
+import com.br.uteis.Variaveis;
 
 public class MainActivity extends Activity {
 
@@ -54,9 +58,14 @@ public class MainActivity extends Activity {
 		btnAbastecimentos.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-	            Intent i = new Intent(getBaseContext(), AbastecimentoActivity.class);
-                startActivity(i);
-                finish();
+				if (banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO).getCount() == 0){
+					util.mostraToast(Messages.NAO_HA_CARRO_CADASTRADO, MainActivity.this);
+				}else{
+		            Intent i = new Intent(getBaseContext(), AbastecimentoActivity.class);
+	                startActivity(i);
+	                finish();
+				}
+
 			}
 		});
 	}

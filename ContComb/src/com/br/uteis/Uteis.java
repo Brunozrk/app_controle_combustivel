@@ -1,7 +1,5 @@
 package com.br.uteis;
 
-import java.util.concurrent.Callable;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 public class Uteis {
+	
 	
 	/**
 	 * MOSTRA MENSAGEM NA TELA 
