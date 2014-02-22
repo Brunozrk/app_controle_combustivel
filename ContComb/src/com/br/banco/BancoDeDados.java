@@ -1,13 +1,14 @@
-package com.br.uteis;
+package com.br.banco;
 
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.br.uteis.Messages;
+import com.br.uteis.Uteis;
 
 public class BancoDeDados{
 
@@ -48,7 +49,7 @@ public class BancoDeDados{
 			bancoDeDados.execSQL(sql_tabela_carro);
 			bancoDeDados.execSQL(sql_tabela_abastecimento);
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_ABRIR_CRIAR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_ABRIR_CRIAR + e.getMessage(), context);
 		}
 	}
 	
@@ -60,7 +61,7 @@ public class BancoDeDados{
 		try {
 			bancoDeDados.close();
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_FECHAR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_FECHAR + e.getMessage(), context);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class BancoDeDados{
 			util.mostraToast(sucesso, context);
 
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
 		}
 	}	
 	
@@ -131,7 +132,7 @@ public class BancoDeDados{
 			util.mostraToast(Messages.SUCESSO_EXCLUSAO, context);
 
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
 		}
 	}
 	
@@ -193,8 +194,29 @@ public class BancoDeDados{
 	    						  new String[]{Integer.toString(idCarro)}, 
 	    						  null, 
 	    						  null, 
-	    						  "date DESC");
+	    						  "date DESC, _id Desc");
 	    
+	}
+	
+	/**
+	 * Retorna soma da média dos abastecimento
+	 * @param idCarro
+	 * @param context
+	 * @return
+	 */
+	public Double somaMediaAbastecimento(int idCarro, Context context){
+		Double media = 0.0;
+		try {
+			Cursor cursor = bancoDeDados.rawQuery("SELECT media FROM " + TABELA_ABASTECIMENTO + " WHERE carro_id = " + idCarro, null);
+			if (cursor.moveToFirst())
+				for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+					media += Double.parseDouble(cursor.getString(cursor.getColumnIndex("media")).replace(",", "."));
+				}
+		} catch (Exception e) {
+			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+		}finally{
+			return media;
+		}
 	}
 	
 	/**
@@ -210,12 +232,10 @@ public class BancoDeDados{
 	public void gravarAbastecimentoQuery(Context context, Double odometro, Double litros, String obs, StringBuilder data, int idCarro,  int idAbastecimento) {
 		try {
 
-			NumberFormat nf = NumberFormat.getInstance();
-			nf.setMaximumFractionDigits(3);
 			
 			String sql = "";
 			String sucesso = "";
-			String media = nf.format(odometro / litros);
+			String media = util.tresCasasDecimais(odometro / litros);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
@@ -255,7 +275,7 @@ public class BancoDeDados{
 			util.mostraToast(sucesso, context);
 
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
 		}
 	}
 
@@ -274,7 +294,7 @@ public class BancoDeDados{
 			util.mostraToast(Messages.SUCESSO_EXCLUSAO, context);
 
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			util.mostraMensagem("Erro", Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
 		}
 	}
 

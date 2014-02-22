@@ -3,12 +3,11 @@ package com.br.econocomb;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import com.br.uteis.BancoDeDados;
+import com.br.banco.BancoDeDados;
 import com.br.uteis.Messages;
 import com.br.uteis.Uteis;
 import com.br.uteis.Variaveis;
@@ -16,8 +15,9 @@ import com.br.uteis.Variaveis;
 public class MainActivity extends Activity {
 
 	BancoDeDados banco_de_dados;
-	Button btnCarros, btnAbastecimentos;
-
+	Button btnCarros, btnAbastecimentos, btnCalc;
+	
+	EditText etEtanol, etGasolina;
 	Uteis util = new Uteis();
 
 	@Override
@@ -35,6 +35,33 @@ public class MainActivity extends Activity {
 		inicializaDados();
 		criaBotaoCarros();
 		criaBotaoAbastecimentos();
+		
+		btnCalc.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				String etanol = etEtanol.getText().toString().trim();
+				String gasolina = etGasolina.getText().toString().trim();
+				if (etanol.isEmpty() || gasolina.isEmpty()){
+					util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, MainActivity.this);
+				}else{
+					if(util.convertStringParaDouble(etanol) == 0 || util.convertStringParaDouble(gasolina) == 0){
+						util.mostraMensagem("Valor Inválido", Messages.CAMPO_NAO_PODE_SER_ZERO, MainActivity.this);
+					}
+					else{
+						Double calculo = util.convertStringParaDouble(etanol)/util.convertStringParaDouble(gasolina);
+						Double calc_porcentagem = calculo*100;
+						String porcentagem = util.tresCasasDecimais(calc_porcentagem);
+						if (calculo <= 0.7){
+							util.mostraMensagem("Etanol ou Gasolina?", "O valor do etanol é MENOR que 70% do valor da gasolina. Compensa abastecer com ETANOL. ("+porcentagem+"%)", MainActivity.this);
+						}
+						else{
+							util.mostraMensagem("Etanol ou Gasolina?", "O valor do etanol é MAIOR que 70% do valor da gasolina. Compensa abastecer com GASOLINA. ("+porcentagem+"%)", MainActivity.this);
+						}
+					}
+				}
+			}
+		});
 	}
 	
 	/**
@@ -46,6 +73,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 	            Intent i = new Intent(getBaseContext(), CarroActivity.class);
                 startActivity(i);
+                banco_de_dados.fechaBancoDeDados(MainActivity.this);
                 finish();
 			}
 		});
@@ -63,6 +91,7 @@ public class MainActivity extends Activity {
 				}else{
 		            Intent i = new Intent(getBaseContext(), AbastecimentoActivity.class);
 	                startActivity(i);
+	                banco_de_dados.fechaBancoDeDados(MainActivity.this);
 	                finish();
 				}
 
@@ -76,6 +105,10 @@ public class MainActivity extends Activity {
 	public void inicializaDados() {
 		btnAbastecimentos = (Button) findViewById(R.id.btnAbastecimetos);
 		btnCarros = (Button) findViewById(R.id.btnCarros);
+		btnCalc = (Button) findViewById(R.id.btnCalc);
+		
+		etEtanol = (EditText) findViewById(R.id.etEtanol);
+		etGasolina= (EditText) findViewById(R.id.etGasolina);
 	}
 	
 	/**

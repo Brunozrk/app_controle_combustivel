@@ -16,6 +16,7 @@ public interface Messages {
 	
 	String ERRO_LISTAR = "Erro ao carregar a lista: ";
 	String ERRO_CARREGAR_REGISTRO = "Erro ao carregar o registro: ";
+	String ERRO_GRAVAR_REGISTRO = "Erro ao gravar o registro: ";
 	
 	String BANCO_ERRO_ABRIR_CRIAR = "Erro ao abrir/criar o Banco de Dados: ";
 	String BANCO_ERRO_FECHAR = "Erro ao fechar o Banco de Dados: ";

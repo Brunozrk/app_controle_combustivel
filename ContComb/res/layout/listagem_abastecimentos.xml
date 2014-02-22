@@ -15,7 +15,8 @@
     <Spinner
         android:id="@+id/spCarros"
         android:layout_width="fill_parent"
-        android:layout_height="54px" >
+        android:layout_height="54px"
+        android:layout_margin="5dp" >
     </Spinner>
 
     <LinearLayout
@@ -60,5 +61,64 @@
         android:layout_height="0dip"
         android:layout_weight="1" >
     </ListView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="#e1e1e8"
+        android:padding="5dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Resumo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Abastecimentos:" />
+
+            <TextView
+                android:id="@+id/tvAbastecimentos"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="X" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Média total:" />
+
+            <TextView
+                android:id="@+id/tvMediaTotal"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="X" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

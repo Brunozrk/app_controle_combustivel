@@ -23,7 +23,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.br.uteis.BancoDeDados;
+import com.br.banco.BancoDeDados;
 import com.br.uteis.Messages;
 import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
@@ -65,7 +65,7 @@ public class CarroActivity extends Activity {
 			carregaListaCarros();
 			
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.ERRO_LISTAR + e.getMessage(), CarroActivity.this);
+			util.mostraMensagem("Erro", Messages.ERRO_LISTAR + e.getMessage(), CarroActivity.this);
 		}
 
 	}
@@ -164,7 +164,7 @@ public class CarroActivity extends Activity {
 	public void gravaCarro(){
 		String marca = etMarca.getText().toString().trim();
 		if (marca.equals("")){
-			util.mostraMensagem(Messages.CAMPO_OBRIGATORIO, CarroActivity.this);
+			util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, CarroActivity.this);
 		}
 		else{
 			banco_de_dados.gravarCarroQuery(CarroActivity.this, marca, idCarro);
@@ -188,7 +188,7 @@ public class CarroActivity extends Activity {
 			etMarca.setText(cursor.getString(cursor.getColumnIndex("marca")));
 
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), CarroActivity.this);
+			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), CarroActivity.this);
 		}
 	}
 	

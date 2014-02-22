@@ -31,7 +31,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.br.uteis.BancoDeDados;
+import com.br.banco.BancoDeDados;
 import com.br.uteis.Messages;
 import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
@@ -43,7 +43,7 @@ public class AbastecimentoActivity extends Activity {
 	int dpAno;
 	int dpMes;
 	int dpDia;
-	TextView tvData;
+	TextView tvData, tvMediaTotal, tvAbastecimentos;
 	Button btnDatePicker;
 	StringBuilder data;
 	final int DATE_DIALOG_ID = 0;
@@ -80,18 +80,28 @@ public class AbastecimentoActivity extends Activity {
 		chamaListaAbastecimentos();
 	}
 	
+	/**
+	 * Chama lista de abastecimento
+	 */
 	public void chamaListaAbastecimentos(){
 		try {
 			pagina_atual = Pages.LISTAGEM_ABASTECIMENTOS;
 			invalidateOptionsMenu();
+			if (getCurrentFocus() != null){
+				InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+			}
 			carregaListaAbastecimentos();
 			
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.ERRO_LISTAR + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem("Erro", Messages.ERRO_LISTAR + e.getMessage(), AbastecimentoActivity.this);
 		}
 
 	}
 	
+	/**
+	 * Carrega Lista de abastecimentos
+	 */
 	public void carregaListaAbastecimentos(){
 		setContentView(R.layout.listagem_abastecimentos);
 		inicializaDados();
@@ -104,7 +114,7 @@ public class AbastecimentoActivity extends Activity {
 		
 		listContentAbastecimentos.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		    	chamaEdicaoAbastecimento(position);
+		    		chamaEdicaoAbastecimento(position);
 			    }
 		});
 		
@@ -112,7 +122,6 @@ public class AbastecimentoActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> arg0, final View view, int position, long id) {
     			cursor.moveToPosition(position);
     			idAbastecimento = cursor.getInt(cursor.getColumnIndex("_id"));
-
 				util.confirm(AbastecimentoActivity.this, 
 						 "Confirmação",
 						 Messages.CONFIRMA_EXCLUSAO, 
@@ -156,25 +165,26 @@ public class AbastecimentoActivity extends Activity {
 		
 	}
 	
+	/**
+	 * Grava abastecimento
+	 */
 	public void gravaAbastecimento(){
 		try {
 			String litros = etLitros.getText().toString().trim();  
 			String odometro = etOdometro.getText().toString().trim();  
 			String obs = etObs.getText().toString().trim();
 			if (litros.equals("") || odometro.equals("")){
-				util.mostraMensagem(Messages.CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
+				util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
 			}
-			else if(Double.parseDouble(litros) == 0 || Double.parseDouble(odometro) == 0){
-				util.mostraMensagem(Messages.CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
+			else if(util.convertStringParaDouble(litros) == 0 || util.convertStringParaDouble(odometro) == 0){
+				util.mostraMensagem("Valor Inválido", Messages.CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
 			}
 				else{
-					banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, Double.parseDouble(odometro), Double.parseDouble(litros), obs, data, idCarro, idAbastecimento);
-					InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
-					inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+					banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, util.convertStringParaDouble(odometro), util.convertStringParaDouble(litros), obs, data, idCarro, idAbastecimento);
 					chamaListaAbastecimentos();
 				}
 		}  catch (Exception e) {
-			util.mostraMensagem(Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem("Erro", Messages.ERRO_GRAVAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
 			capturaItemSelecionadoSpinnerParaGravar();
 		}
 	}
@@ -214,20 +224,20 @@ public class AbastecimentoActivity extends Activity {
 			
 			// Atualiza data para a data do registro a ser editado
 			String dataColumn = cursor.getString(cursor.getColumnIndex("strftime('%d/%m/%Y',date)"));
-			atualizaValoresData(Integer.parseInt(dataColumn.split("/")[0]), Integer.parseInt(dataColumn.split("/")[1]) - 1, Integer.parseInt(dataColumn.split("/")[2]));
+			atualizaValoresData(util.convertStringParaInt(dataColumn.split("/")[0]), util.convertStringParaInt(dataColumn.split("/")[1]) - 1, util.convertStringParaInt(dataColumn.split("/")[2]));
 			Calendar c = Calendar.getInstance();
 			c.set(dpAno, dpMes, dpDia);
 			
 			// CARREGA CADASTRO
 			chamaCadastroAbastecimento();
 			
-			etOdometro.setText(String.valueOf(cursor.getDouble(cursor.getColumnIndex("odometro"))));
-			etLitros.setText(String.valueOf(cursor.getDouble(cursor.getColumnIndex("litros"))));
+			etOdometro.setText(util.convertDoubleParaString(cursor.getDouble(cursor.getColumnIndex("odometro"))));
+			etLitros.setText(util.convertDoubleParaString(cursor.getDouble(cursor.getColumnIndex("litros"))));
 			etObs.setText(cursor.getString(cursor.getColumnIndex("obs")));
 			spCarros.setSelection(postionCursorSpinnerCarro);
 			
 		} catch (Exception e) {
-			util.mostraMensagem(Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
 		}
 	}
 	
@@ -288,7 +298,7 @@ public class AbastecimentoActivity extends Activity {
 													cursor, 
 													Variaveis.CAMPOS_ABASTECIMENTO, 
 													new int[] { R.id.tvData, R.id.tvOdometro, R.id.tvLitros, R.id.tvMedia, R.id.tvObs});
-				
+				carregaResumo();
 				listContentAbastecimentos.setAdapter(dataSource);
 			}
 			
@@ -297,6 +307,19 @@ public class AbastecimentoActivity extends Activity {
 				
 			}
 		});
+	}
+	
+	/**
+	 * Carrega resummo (Abastecimentos e Média Total)
+	 */
+	public void carregaResumo(){
+		Double somaMedia = banco_de_dados.somaMediaAbastecimento(idCarro, AbastecimentoActivity.this);
+		String mediaTotal = "0";
+		if (cursor.getCount() != 0){
+			mediaTotal = util.tresCasasDecimais(somaMedia/cursor.getCount());
+		}
+		tvMediaTotal.setText(mediaTotal + " Km/L");
+		tvAbastecimentos.setText(util.convertIntParaString(cursor.getCount()));
 	}
 	
     /**
@@ -362,6 +385,8 @@ public class AbastecimentoActivity extends Activity {
 
 		// Text View
         tvData = (TextView) findViewById(R.id.tvData);
+        tvMediaTotal = (TextView) findViewById(R.id.tvMediaTotal);
+        tvAbastecimentos = (TextView) findViewById(R.id.tvAbastecimentos);
 		
 		// ListView
 		listContentAbastecimentos = (ListView) findViewById(R.id.listViewAbastecimentos);

@@ -14,7 +14,7 @@
         android:id="@+id/menu_grava"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="ifRoom"
-        android:title="Salvar"
+        android:title="Gravar"
         android:visible="false"/>
 
 </menu>

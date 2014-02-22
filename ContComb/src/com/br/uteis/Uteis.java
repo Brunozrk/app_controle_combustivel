@@ -1,5 +1,7 @@
 package com.br.uteis;
 
+import java.text.NumberFormat;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,14 +15,38 @@ import android.widget.Toast;
 public class Uteis {
 	
 	
+	public String tresCasasDecimais(Double valor){
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMaximumFractionDigits(3);
+		String formatado = nf.format(valor);
+		
+		return formatado;
+	}
+	
+	public Double convertStringParaDouble(String valor){
+		return Double.parseDouble(valor);
+	}
+	
+	public int convertStringParaInt(String valor){
+		return Integer.parseInt(valor);
+	}
+	
+	public String convertDoubleParaString(Double valor){
+		return String.valueOf(valor);
+	}
+
+	public String convertIntParaString(int valor){
+		return String.valueOf(valor);
+	}
+	
 	/**
 	 * MOSTRA MENSAGEM NA TELA 
 	 * @param msg
 	 * @param context
 	 */
-	public void mostraMensagem(String msg, Context context) {
+	public void mostraMensagem(String title, String msg, Context context) {
 		AlertDialog.Builder mensagem = new AlertDialog.Builder(context);
-		mensagem.setTitle("AVISO!");
+		mensagem.setTitle(title);
 		mensagem.setMessage(msg);
 		mensagem.setNeutralButton("OK", null);
 		mensagem.show();
@@ -78,6 +104,13 @@ public class Uteis {
 
 	        }
 	
+	
+	/**
+	 * Faz a animação do registro da listview ir para a direita
+	 * @param context
+	 * @param view
+	 * @param func
+	 */
 	public void animation_slide_out_right(Context context, View view, final Runnable func){
 	    final Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right); 
 	    view.startAnimation(animation);

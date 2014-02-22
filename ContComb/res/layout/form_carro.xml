@@ -11,15 +11,18 @@
         android:layout_gravity="center_horizontal"
         android:text="Carro" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Marca *" />
+    <LinearLayout style="@style/FormLayout" >
 
-    <EditText
-        android:id="@+id/etMarca"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Marca *" />
+
+        <EditText
+            android:id="@+id/etMarca"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext" />
+    </LinearLayout>
 
 </LinearLayout>

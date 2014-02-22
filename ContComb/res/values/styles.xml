@@ -23,7 +23,12 @@
 		<item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">match_parent</item>
 	</style>
-    
+    <style name="FormLayout">
+	    <item name="android:layout_margin">5dp</item>
+   		<item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:orientation">vertical</item>
+	</style>    
     <style name="button">
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>

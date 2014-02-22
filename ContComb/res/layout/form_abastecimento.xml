@@ -11,11 +11,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Abastecimento" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+    <LinearLayout style="@style/FormLayout" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,29 +24,49 @@
             android:layout_height="54px" >
         </Spinner>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Odômetro (Km) *" />
+            android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/etOdometro"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:inputType="numberDecimal" />
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="Odômetro (Km) *" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Litros *" />
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="Litros *" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/etLitros"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
-            android:inputType="numberDecimal" />
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/etOdometro"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_edittext"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/etLitros"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_edittext"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,12 +96,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edittext" />
-
             <Button
                 android:id="@+id/btnDatePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/calendar" />
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/icon_button"
+                android:drawableRight="@drawable/ic_action_go_to_today" />
         </LinearLayout>
     </LinearLayout>
 
