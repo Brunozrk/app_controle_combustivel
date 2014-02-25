@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.br.uteis.Messages;
 import com.br.uteis.Uteis;
+import com.br.uteis.Variaveis;
 
 public class BancoDeDados{
 
@@ -181,20 +182,71 @@ public class BancoDeDados{
 	}
 	
 	/**
+	 * Busca todos os carros
+	 * @param campos_carro
+	 * @return
+	 */
+	public Cursor buscaDatasAbastecimentoQuery(int idCarro){
+		return  bancoDeDados.query(TABELA_ABASTECIMENTO, 
+								   Variaveis.CAMPOS_DATAS_ABASTECIMENTO,
+								   "carro_id = ?", 
+								   new String[]{Integer.toString(idCarro)}, // selection,
+								   Variaveis.CAMPOS_DATAS_ABASTECIMENTO[0], // groupBy,
+								   null, // having,
+								   "date DESC, _id Desc"); // orderBy);
+		
+	}
+	
+	/**
 	 * Filtra a listagem de abastecimentos pelo id do carro
 	 * @param idCarro
 	 * @param campos_abastecimento
 	 * @return
 	 */
-	public Cursor filtraAbastecimentoPorCarroQuery(int idCarro, String [] campos_abastecimento){
-
-	    return bancoDeDados.query(TABELA_ABASTECIMENTO, 
-	    						  campos_abastecimento, 
-	    						  "carro_id = ?", 
-	    						  new String[]{Integer.toString(idCarro)}, 
-	    						  null, 
-	    						  null, 
-	    						  "date DESC, _id Desc");
+	public Cursor filtraAbastecimentoPorCarroDataQuery(int idCarro, String data, Context context){
+		try {
+			String select = "carro_id = ?";
+			String[] where = new String[]{Integer.toString(idCarro)};
+			
+			if (!data.isEmpty()){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
+				String[] dataSplit = data.toString().split("/");
+				
+				Date objDateMin = new Date();
+				objDateMin.setDate(1);
+				objDateMin.setMonth(Integer.parseInt(dataSplit[0]) - 1);
+				objDateMin.setYear(Integer.parseInt(dataSplit[1]) - 1900);
+				String dateMin = sdf.format(objDateMin);
+				
+				Date objDateMax = new Date();
+				objDateMax.setDate(1);
+				if (dataSplit[0].equals("12")){
+					objDateMax.setMonth(0);
+					objDateMax.setYear((Integer.parseInt(dataSplit[1]) - 1900) + 1);
+				}
+				else{
+					objDateMax.setMonth(Integer.parseInt(dataSplit[0]));
+					objDateMax.setYear(Integer.parseInt(dataSplit[1]) - 1900);
+				}
+				
+				String dateMax = sdf.format(objDateMax);
+				
+				select += " AND date >= ? AND date < ?";
+				where = new String[]{Integer.toString(idCarro), dateMin, dateMax};
+			}
+			
+			return bancoDeDados.query(TABELA_ABASTECIMENTO, 
+					Variaveis.CAMPOS_ABASTECIMENTO, 
+					select, 
+					where, 
+					null, 
+					null, 
+					"date DESC, _id Desc");
+		} catch (Exception e) {
+			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+			return null;
+		}
 	    
 	}
 	
@@ -204,10 +256,10 @@ public class BancoDeDados{
 	 * @param context
 	 * @return
 	 */
-	public Double somaMediaAbastecimento(int idCarro, Context context){
+	public Double somaMediaAbastecimento(int idCarro, String data, Context context){
 		Double media = 0.0;
 		try {
-			Cursor cursor = bancoDeDados.rawQuery("SELECT media FROM " + TABELA_ABASTECIMENTO + " WHERE carro_id = " + idCarro, null);
+			Cursor cursor = filtraAbastecimentoPorCarroDataQuery(idCarro, data, context);
 			if (cursor.moveToFirst())
 				for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 					media += Double.parseDouble(cursor.getString(cursor.getColumnIndex("media")).replace(",", "."));

@@ -54,6 +54,7 @@ public class AbastecimentoActivity extends Activity {
 	
 	MenuItem menu_novo, menu_grava;
 	
+	String dataFiltro = "";
 	int idCarro = 0;
 	int idAbastecimento = 0;
 	int pagina_atual = 0;
@@ -63,7 +64,9 @@ public class AbastecimentoActivity extends Activity {
 
 	// Spinner carros
  	Spinner spCarros;
+ 	Spinner spDatas;
  	Cursor cursorSpinnerCarro = null;
+ 	Cursor cursorSpinnerData = null;
  	
  	Cursor cursor = null;
 	CursorAdapter dataSource;
@@ -106,7 +109,7 @@ public class AbastecimentoActivity extends Activity {
 		setContentView(R.layout.listagem_abastecimentos);
 		inicializaDados();
 		carregaSpinnerCarro();
-		
+		carregaSpinnerData();
 		idAbastecimento = 0;
 		
 		// Captura e filtra
@@ -248,7 +251,7 @@ public class AbastecimentoActivity extends Activity {
 		cursorSpinnerCarro = banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO);
 		List<String> nomes = new ArrayList<String>();
 		cursorSpinnerCarro.moveToFirst();
-		
+		idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
 		while(!cursorSpinnerCarro.isAfterLast()){
 			nomes.add(cursorSpinnerCarro.getString(cursorSpinnerCarro.getColumnIndex("marca")));
 			cursorSpinnerCarro.moveToNext();
@@ -259,7 +262,26 @@ public class AbastecimentoActivity extends Activity {
 		ArrayAdapter<String> spinnerArrayAdapter = arrayAdapter;
 		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 		spCarros.setAdapter(spinnerArrayAdapter);
+	}
 	
+	/**
+	 * Carrega spinner com datas do abastecimento
+	 */
+	public void carregaSpinnerData(){
+		cursorSpinnerData = banco_de_dados.buscaDatasAbastecimentoQuery(idCarro);
+		List<String> datas = new ArrayList<String>();
+		cursorSpinnerData.moveToFirst();
+		datas.add("Todos");
+		while(!cursorSpinnerData.isAfterLast()){
+			datas.add(cursorSpinnerData.getString(cursorSpinnerData.getColumnIndex("strftime('%m/%Y',date)")));
+			cursorSpinnerData.moveToNext();
+		}
+		
+		//Cria um ArrayAdapter usando um padrão de layout da classe R do android, passando o ArrayList nomes
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, datas);
+		ArrayAdapter<String> spinnerArrayAdapter = arrayAdapter;
+		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+		spDatas.setAdapter(spinnerArrayAdapter);
 	}
 	
 	/**
@@ -287,19 +309,30 @@ public class AbastecimentoActivity extends Activity {
 	public void capturaItemSelecionadoSpinnerParaFiltrar(){
 		spCarros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			
-			@SuppressWarnings("deprecation")
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 				cursorSpinnerCarro.moveToPosition(position);
 				idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
-				cursor = banco_de_dados.filtraAbastecimentoPorCarroQuery(idCarro, Variaveis.CAMPOS_ABASTECIMENTO);
-				dataSource = new SimpleCursorAdapter(AbastecimentoActivity.this, 
-													R.layout.item_list_abastecimento, 
-													cursor, 
-													Variaveis.CAMPOS_ABASTECIMENTO, 
-													new int[] { R.id.tvData, R.id.tvOdometro, R.id.tvLitros, R.id.tvMedia, R.id.tvObs});
-				carregaResumo();
-				listContentAbastecimentos.setAdapter(dataSource);
+				filtraListaAbastecimentos();
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
+		spDatas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+				position--;
+				if (position < 0){
+					dataFiltro = "";
+				}else{
+					cursorSpinnerData.moveToPosition(position);
+					dataFiltro = cursorSpinnerData.getString(cursorSpinnerData.getColumnIndex("strftime('%m/%Y',date)"));
+				}
+				filtraListaAbastecimentos();
 			}
 			
 			@Override
@@ -309,11 +342,22 @@ public class AbastecimentoActivity extends Activity {
 		});
 	}
 	
+	public void filtraListaAbastecimentos(){
+		cursor = banco_de_dados.filtraAbastecimentoPorCarroDataQuery(idCarro, dataFiltro, AbastecimentoActivity.this);
+		dataSource = new SimpleCursorAdapter(AbastecimentoActivity.this, 
+											R.layout.item_list_abastecimento, 
+											cursor, 
+											Variaveis.CAMPOS_ABASTECIMENTO, 
+											new int[] { R.id.tvData, R.id.tvOdometro, R.id.tvLitros, R.id.tvMedia, R.id.tvObs});
+		carregaResumo();
+		listContentAbastecimentos.setAdapter(dataSource);
+	}
+	
 	/**
 	 * Carrega resummo (Abastecimentos e Média Total)
 	 */
 	public void carregaResumo(){
-		Double somaMedia = banco_de_dados.somaMediaAbastecimento(idCarro, AbastecimentoActivity.this);
+		Double somaMedia = banco_de_dados.somaMediaAbastecimento(idCarro, dataFiltro, AbastecimentoActivity.this);
 		String mediaTotal = "0";
 		if (cursor.getCount() != 0){
 			mediaTotal = util.tresCasasDecimais(somaMedia/cursor.getCount());
@@ -392,6 +436,7 @@ public class AbastecimentoActivity extends Activity {
 		listContentAbastecimentos = (ListView) findViewById(R.id.listViewAbastecimentos);
 		
 		spCarros = (Spinner) findViewById(R.id.spCarros);
+		spDatas = (Spinner) findViewById(R.id.spDatas);
 	}
 	
 	/**

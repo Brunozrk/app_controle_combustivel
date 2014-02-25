@@ -38,30 +38,31 @@ public final class R {
         public static final int yellow_button=0x7f02000e;
     }
     public static final class id {
-        public static final int action_settings=0x7f080017;
+        public static final int action_settings=0x7f080018;
         public static final int btnAbastecimetos=0x7f080004;
         public static final int btnCalc=0x7f080002;
         public static final int btnCarros=0x7f080003;
         public static final int btnDatePicker=0x7f08000a;
         public static final int etEtanol=0x7f080000;
-        public static final int etFiltro=0x7f080015;
+        public static final int etFiltro=0x7f080016;
         public static final int etGasolina=0x7f080001;
         public static final int etLitros=0x7f080007;
         public static final int etMarca=0x7f08000b;
         public static final int etObs=0x7f080008;
         public static final int etOdometro=0x7f080006;
-        public static final int listViewAbastecimentos=0x7f080012;
-        public static final int listViewCarros=0x7f080016;
-        public static final int menu_grava=0x7f080019;
-        public static final int menu_novo=0x7f080018;
+        public static final int listViewAbastecimentos=0x7f080013;
+        public static final int listViewCarros=0x7f080017;
+        public static final int menu_grava=0x7f08001a;
+        public static final int menu_novo=0x7f080019;
         public static final int spCarros=0x7f080005;
+        public static final int spDatas=0x7f080012;
         public static final int stupid_android=0x7f080010;
-        public static final int tvAbastecimentos=0x7f080013;
+        public static final int tvAbastecimentos=0x7f080014;
         public static final int tvData=0x7f080009;
         public static final int tvLitros=0x7f08000d;
         public static final int tvMarca=0x7f080011;
         public static final int tvMedia=0x7f08000e;
-        public static final int tvMediaTotal=0x7f080014;
+        public static final int tvMediaTotal=0x7f080015;
         public static final int tvObs=0x7f08000f;
         public static final int tvOdometro=0x7f08000c;
     }
