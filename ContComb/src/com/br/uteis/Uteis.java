@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 public class Uteis {
 	
-	
 	public String tresCasasDecimais(Double valor){
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(3);

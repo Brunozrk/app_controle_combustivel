@@ -1,7 +1,6 @@
 package com.br.econocomb;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,7 +28,7 @@ import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
 import com.br.uteis.Variaveis;
 
-public class CarroActivity extends Activity {
+public class CarroActivity extends BaseActivity {
 	
 	BancoDeDados banco_de_dados;
 	Button btnFormCarro, btnGravaCarro;
@@ -39,20 +38,23 @@ public class CarroActivity extends Activity {
 	MenuItem menu_novo, menu_grava;
 	
 	ListView listContentCarros;
+
 	int idCarro = 0;
 	int pagina_atual = 0;
- 	Cursor cursor = null;
+ 	
+	Cursor cursor = null;
 	CursorAdapter dataSource;
+
 	Uteis util = new Uteis();
 
-	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		banco_de_dados = new BancoDeDados(CarroActivity.this);
 		ActionBar actionBar = getActionBar();
-	    actionBar.setDisplayHomeAsUpEnabled(true);
-	    chamaListaCarros();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		chamaListaCarros();
+		menuEsquerda();
 	}
 	
 	/**
@@ -92,7 +94,7 @@ public class CarroActivity extends Activity {
 		listContentCarros.setTextFilterEnabled(true);
 		listContentCarros.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		    	chamaEdicaoCarro(position);
+		    		chamaEdicaoCarro(position);
 			    }
 		});
 		
@@ -112,6 +114,7 @@ public class CarroActivity extends Activity {
 								util.animation_slide_out_right(CarroActivity.this, view, new Runnable() { 
 																					public void run() { 
 																						carregaListaCarros();
+																						menuEsquerda();
 																					}
 																			});
 							}
@@ -156,6 +159,7 @@ public class CarroActivity extends Activity {
 		setContentView(R.layout.form_carro);
 		inicializaDados();
 		etMarca.requestFocus();
+		desabilitaDrawer();
 	}
 	
 	/**
@@ -171,6 +175,8 @@ public class CarroActivity extends Activity {
 			InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 			chamaListaCarros();
+			habilitaDrawer();
+			menuEsquerda();
 		}
 	}
 	/**
@@ -213,6 +219,10 @@ public class CarroActivity extends Activity {
 		// ListView
 		listContentCarros = (ListView) findViewById(R.id.listViewCarros);
 	}
+	
+	/**********************************************************************************
+	 * ACTION BAR - Aqui estão os métodos que fazem o controle da action bar
+	 **********************************************************************************/
 	
 	/**
 	 * Criação do menu no action bar
@@ -260,6 +270,9 @@ public class CarroActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
         case android.R.id.home:
+    		if (pagina_atual == Pages.LISTAGEM_CARROS){
+    			return(super.onOptionsItemSelected(item));
+    		}
         	redirecionaVoltar();
             return(true);
         case R.id.menu_novo:
@@ -290,6 +303,8 @@ public class CarroActivity extends Activity {
 			break;
 		case Pages.FORM_CARRO:
 			chamaListaCarros();
+			habilitaDrawer();
+			menuEsquerda();
 			break;
 		default:
 			banco_de_dados.fechaBancoDeDados(CarroActivity.this);

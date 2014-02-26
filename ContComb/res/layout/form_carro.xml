@@ -21,6 +21,7 @@
         <EditText
             android:id="@+id/etMarca"
             android:layout_width="fill_parent"
+            android:maxLength="15"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext" />
     </LinearLayout>

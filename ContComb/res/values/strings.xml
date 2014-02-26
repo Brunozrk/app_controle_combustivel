@@ -4,4 +4,13 @@
     <string name="app_name">ContComb</string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="items">
+        <item>Página Inicial</item>
+        <item>Carros</item>
+        <item>Abastecimetos</item>
+        <item>Sair</item>
+    </string-array>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

@@ -37,7 +37,7 @@ import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
 import com.br.uteis.Variaveis;
 
-public class AbastecimentoActivity extends Activity {
+public class AbastecimentoActivity extends BaseActivity {
 
 	// Date Dialog
 	int dpAno;
@@ -62,7 +62,7 @@ public class AbastecimentoActivity extends Activity {
 	// Abastecimentos
 	ListView listContentAbastecimentos;
 
-	// Spinner carros
+	// Spinners
  	Spinner spCarros;
  	Spinner spDatas;
  	Cursor cursorSpinnerCarro = null;
@@ -70,17 +70,17 @@ public class AbastecimentoActivity extends Activity {
  	
  	Cursor cursor = null;
 	CursorAdapter dataSource;
+	
 	Uteis util = new Uteis();
 
-	
-	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		banco_de_dados = new BancoDeDados(AbastecimentoActivity.this);
 		ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 		chamaListaAbastecimentos();
+		menuEsquerda();
 	}
 	
 	/**
@@ -136,6 +136,7 @@ public class AbastecimentoActivity extends Activity {
 								util.animation_slide_out_right(AbastecimentoActivity.this, view, new Runnable() { 
 																								public void run() { 
 																									carregaListaAbastecimentos();
+																									menuEsquerda();
 																								}
 																							});
 							}
@@ -163,9 +164,8 @@ public class AbastecimentoActivity extends Activity {
                 showDialog(DATE_DIALOG_ID);
             }
         });
-
         atualizaTvData();
-		
+        desabilitaDrawer();
 	}
 	
 	/**
@@ -185,6 +185,8 @@ public class AbastecimentoActivity extends Activity {
 				else{
 					banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, util.convertStringParaDouble(odometro), util.convertStringParaDouble(litros), obs, data, idCarro, idAbastecimento);
 					chamaListaAbastecimentos();
+					habilitaDrawer();
+					menuEsquerda();
 				}
 		}  catch (Exception e) {
 			util.mostraMensagem("Erro", Messages.ERRO_GRAVAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
@@ -439,6 +441,11 @@ public class AbastecimentoActivity extends Activity {
 		spDatas = (Spinner) findViewById(R.id.spDatas);
 	}
 	
+
+	/**********************************************************************************
+	 * ACTION BAR - Aqui estão os métodos que fazem o controle da action bar
+	 **********************************************************************************/
+	
 	/**
 	 * Criação do menu no action bar
 	 * @param menu
@@ -486,6 +493,9 @@ public class AbastecimentoActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
         case android.R.id.home:
+    		if (pagina_atual == Pages.LISTAGEM_ABASTECIMENTOS){
+    			return(super.onOptionsItemSelected(item));
+    		}
         	redirecionaVoltar();
             return(true);
         case R.id.menu_novo:
@@ -518,6 +528,8 @@ public class AbastecimentoActivity extends Activity {
 			break;
 		case Pages.FORM_ABASTECIMENTO:
 			chamaListaAbastecimentos();
+			habilitaDrawer();
+			menuEsquerda();
 			break;
 		default:
 			banco_de_dados.fechaBancoDeDados(AbastecimentoActivity.this);
