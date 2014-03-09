@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
         <TextView
@@ -13,6 +13,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="2"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
             android:text="DATA" />
 
         <TextView
@@ -21,6 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1.5"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="ODOM" />
 
         <TextView
@@ -29,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1.5"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="LITROS" />
 
         <TextView
@@ -37,6 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1.5"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="MEDIA" />
 
         <TextView
@@ -45,6 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="2"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="OBS" />
     </LinearLayout>
 

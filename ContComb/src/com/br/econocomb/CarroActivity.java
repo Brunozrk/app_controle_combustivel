@@ -1,10 +1,11 @@
 package com.br.econocomb;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -35,8 +36,6 @@ public class CarroActivity extends BaseActivity {
 
 	EditText etMarca, etFiltro;
 	
-	MenuItem menu_novo, menu_grava;
-	
 	ListView listContentCarros;
 
 	int idCarro = 0;
@@ -51,7 +50,7 @@ public class CarroActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		banco_de_dados = new BancoDeDados(CarroActivity.this);
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		chamaListaCarros();
 		menuEsquerda();
@@ -63,7 +62,7 @@ public class CarroActivity extends BaseActivity {
 	public void chamaListaCarros(){
 		try {
 			pagina_atual = Pages.LISTAGEM_CARROS;
-			invalidateOptionsMenu();
+			supportInvalidateOptionsMenu();
 			carregaListaCarros();
 			
 		} catch (Exception e) {
@@ -97,6 +96,8 @@ public class CarroActivity extends BaseActivity {
 		    		chamaEdicaoCarro(position);
 			    }
 		});
+		
+//		((SimpleCursorAdapter) dataSource).setViewBinder(binder);
 		
 		listContentCarros.setOnItemLongClickListener(new OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> arg0, final View view, int position, long id) {
@@ -155,7 +156,7 @@ public class CarroActivity extends BaseActivity {
 	 */
 	public void chamaCadastroCarro() {
 		pagina_atual = Pages.FORM_CARRO;
-		invalidateOptionsMenu();
+		supportInvalidateOptionsMenu();
 		setContentView(R.layout.form_carro);
 		inicializaDados();
 		etMarca.requestFocus();
@@ -246,6 +247,9 @@ public class CarroActivity extends BaseActivity {
     {
 		menu_novo = menu.findItem(R.id.menu_novo); 
 		menu_grava = menu.findItem(R.id.menu_grava); 
+		menu_envia = menu.findItem(R.id.menu_envia); 
+		
+		menu_envia.setVisible(false);
 		switch (pagina_atual) {
 		case Pages.LISTAGEM_CARROS:
 			menu_novo.setVisible(true);

@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Bem Vindo ao ContComb!" />
+                    android:text="Ajuda" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -35,52 +35,41 @@
                     android:text="Com esse aplicativo você terá mais controle de quanto o seu carro consome!" />
 
                 <TextView
-                    style="@style/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="O que compensa?" />
+                    android:layout_marginTop="10dp"
+                    android:text="Dicas:" />
 
-                <LinearLayout
-                    style="@style/FormLayout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:layout_marginLeft="20dp"
+                    android:text="• Para editar um registro, toque o mesmo na tela de listagem." />
 
-                    <EditText
-                        android:id="@+id/etEtanol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="2dp"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/rounded_edittext"
-                        android:hint="R$ Etanol"
-                        android:inputType="numberDecimal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="• Para excluir um registro, toque e segure o mesmo na tela de listagem." />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ou" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="• Os campos com asterisco (*) são obrigatórios." />
 
-                    <EditText
-                        android:id="@+id/etGasolina"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/rounded_edittext"
-                        android:hint="R$ Gasolina"
-                        android:inputType="numberDecimal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="• Atente-se para os botões na Action Bar." />
 
-                    <ImageButton
-                        android:id="@+id/btnCalc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:layout_marginLeft="2dp"
-                        android:background="@drawable/icon_button"
-                        android:src="@drawable/ic_action_help"
-                        android:title="Etanol ou Gasolina?" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="• O menu fica ao lado esquerdo, clique no ícone do app." />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

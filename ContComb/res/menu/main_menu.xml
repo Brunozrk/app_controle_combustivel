@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
 
-    <!-- New / will display always -->
+    <!-- Novo -->
     <item
         android:id="@+id/menu_novo"
         android:icon="@drawable/ic_action_new"
-        android:showAsAction="ifRoom"
         android:title="Novo"
-        android:visible="false"/>
-    
-    <!-- New / will display always -->
+        android:visible="false"
+        yourapp:showAsAction="ifRoom"/>
+
+    <!-- Gravar -->
     <item
         android:id="@+id/menu_grava"
         android:icon="@drawable/ic_action_save"
-        android:showAsAction="ifRoom"
         android:title="Gravar"
-        android:visible="false"/>
+        android:visible="false"
+        yourapp:showAsAction="ifRoom"/>
 
+    <!-- Mensagem -->
+    <item
+        android:id="@+id/menu_envia"
+        android:icon="@drawable/ic_action_send_now"
+        android:title="Enviar"
+        android:visible="false"
+        yourapp:showAsAction="ifRoom"/>
+    
 </menu>

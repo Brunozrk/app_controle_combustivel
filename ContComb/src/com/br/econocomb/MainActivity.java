@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.br.uteis.Messages;
 import com.br.uteis.Uteis;
 
 public class MainActivity extends BaseActivity {
 
-	Button btnCalc;
+	ImageButton btnCalc;
 	
 	EditText etEtanol, etGasolina;
 	Uteis util = new Uteis();
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity {
 			public void onClick(View arg0) {
 				String etanol = etEtanol.getText().toString().trim();
 				String gasolina = etGasolina.getText().toString().trim();
-				if (etanol.isEmpty() || gasolina.isEmpty()){
+				if (etanol.equals("") || gasolina.equals("")){
 					util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, MainActivity.this);
 				}else{
 					if(util.convertStringParaDouble(etanol) == 0 || util.convertStringParaDouble(gasolina) == 0){
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity {
 	 * Inicializar dados
 	 */
 	public void inicializaDados() {
-		btnCalc = (Button) findViewById(R.id.btnCalc);
+		btnCalc = (ImageButton) findViewById(R.id.btnCalc);
 		etEtanol = (EditText) findViewById(R.id.etEtanol);
 		etGasolina= (EditText) findViewById(R.id.etGasolina);
 	}

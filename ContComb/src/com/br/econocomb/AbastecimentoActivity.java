@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +24,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -44,15 +43,13 @@ public class AbastecimentoActivity extends BaseActivity {
 	int dpMes;
 	int dpDia;
 	TextView tvData, tvMediaTotal, tvAbastecimentos;
-	Button btnDatePicker;
+	ImageButton btnDatePicker;
 	StringBuilder data;
 	final int DATE_DIALOG_ID = 0;
 	
 	BancoDeDados banco_de_dados;
 
 	EditText etLitros, etOdometro, etObs;
-	
-	MenuItem menu_novo, menu_grava;
 	
 	String dataFiltro = "";
 	int idCarro = 0;
@@ -77,7 +74,7 @@ public class AbastecimentoActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		banco_de_dados = new BancoDeDados(AbastecimentoActivity.this);
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 		chamaListaAbastecimentos();
 		menuEsquerda();
@@ -89,7 +86,7 @@ public class AbastecimentoActivity extends BaseActivity {
 	public void chamaListaAbastecimentos(){
 		try {
 			pagina_atual = Pages.LISTAGEM_ABASTECIMENTOS;
-			invalidateOptionsMenu();
+			supportInvalidateOptionsMenu();
 			if (getCurrentFocus() != null){
 				InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
@@ -152,7 +149,7 @@ public class AbastecimentoActivity extends BaseActivity {
 	 */
 	public void chamaCadastroAbastecimento() {
 		pagina_atual = Pages.FORM_ABASTECIMENTO;
-		invalidateOptionsMenu();
+		supportInvalidateOptionsMenu();
 		setContentView(R.layout.form_abastecimento);
 		inicializaDados();
 		carregaSpinnerCarro();
@@ -353,6 +350,7 @@ public class AbastecimentoActivity extends BaseActivity {
 											new int[] { R.id.tvData, R.id.tvOdometro, R.id.tvLitros, R.id.tvMedia, R.id.tvObs});
 		carregaResumo();
 		listContentAbastecimentos.setAdapter(dataSource);
+//		((SimpleCursorAdapter) dataSource).setViewBinder(binder);
 	}
 	
 	/**
@@ -422,7 +420,7 @@ public class AbastecimentoActivity extends BaseActivity {
 	public void inicializaDados() {
 		
 		// Botões
-		btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
+		btnDatePicker = (ImageButton) findViewById(R.id.btnDatePicker);
 		
 		// Edit Text
 		etLitros = (EditText) findViewById(R.id.etLitros);
@@ -468,7 +466,9 @@ public class AbastecimentoActivity extends BaseActivity {
     {
 		menu_novo = menu.findItem(R.id.menu_novo); 
 		menu_grava = menu.findItem(R.id.menu_grava); 
+		menu_envia = menu.findItem(R.id.menu_envia); 
 		
+		menu_envia.setVisible(false);
 		switch (pagina_atual) {
 		case Pages.LISTAGEM_ABASTECIMENTOS:
 			menu_novo.setVisible(true);

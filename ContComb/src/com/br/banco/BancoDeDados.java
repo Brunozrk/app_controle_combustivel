@@ -208,7 +208,7 @@ public class BancoDeDados{
 			String select = "carro_id = ?";
 			String[] where = new String[]{Integer.toString(idCarro)};
 			
-			if (!data.isEmpty()){
+			if (!data.equals("")){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				
 				String[] dataSplit = data.toString().split("/");
