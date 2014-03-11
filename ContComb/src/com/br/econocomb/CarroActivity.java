@@ -251,18 +251,18 @@ public class CarroActivity extends BaseActivity {
 		
 		menu_envia.setVisible(false);
 		switch (pagina_atual) {
-		case Pages.LISTAGEM_CARROS:
-			menu_novo.setVisible(true);
-			menu_grava.setVisible(false);
-			break;
-		case Pages.FORM_CARRO:
-			menu_novo.setVisible(false);
-			menu_grava.setVisible(true);
-			break;
-		default:
-			menu_novo.setVisible(true);
-			menu_grava.setVisible(false);
-			break;
+			case Pages.LISTAGEM_CARROS:
+				menu_novo.setVisible(true);
+				menu_grava.setVisible(false);
+				break;
+			case Pages.FORM_CARRO:
+				menu_novo.setVisible(false);
+				menu_grava.setVisible(true);
+				break;
+			default:
+				menu_novo.setVisible(true);
+				menu_grava.setVisible(false);
+				break;
 		}
 		return true;
     }
@@ -273,18 +273,18 @@ public class CarroActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-        case android.R.id.home:
-    		if (pagina_atual == Pages.LISTAGEM_CARROS){
-    			return(super.onOptionsItemSelected(item));
-    		}
-        	redirecionaVoltar();
-            return(true);
-        case R.id.menu_novo:
-            chamaCadastroCarro();
-            return true;
-	    case R.id.menu_grava:
-	    	gravaCarro();
-	        return true;
+	        case android.R.id.home:
+	    		if (pagina_atual == Pages.LISTAGEM_CARROS){
+	    			return(super.onOptionsItemSelected(item));
+	    		}
+	        	redirecionaVoltar();
+	            return(true);
+	        case R.id.menu_novo:
+	            chamaCadastroCarro();
+	            return true;
+		    case R.id.menu_grava:
+		    	gravaCarro();
+		        return true;
 		}
 	    return(super.onOptionsItemSelected(item));
 	}
@@ -302,18 +302,18 @@ public class CarroActivity extends BaseActivity {
 	 */
 	public void redirecionaVoltar(){
 		switch (pagina_atual) {
-		case Pages.LISTAGEM_CARROS:
-			chamaTelaInicial();
-			break;
-		case Pages.FORM_CARRO:
-			chamaListaCarros();
-			habilitaDrawer();
-			menuEsquerda();
-			break;
-		default:
-			banco_de_dados.fechaBancoDeDados(CarroActivity.this);
-			finish();
-			break;
+			case Pages.LISTAGEM_CARROS:
+				chamaTelaInicial();
+				break;
+			case Pages.FORM_CARRO:
+				chamaListaCarros();
+				habilitaDrawer();
+				menuEsquerda();
+				break;
+			default:
+				banco_de_dados.fechaBancoDeDados(CarroActivity.this);
+				finish();
+				break;
 		}
 	}
 }

@@ -341,6 +341,7 @@ public class AbastecimentoActivity extends BaseActivity {
 		});
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void filtraListaAbastecimentos(){
 		cursor = banco_de_dados.filtraAbastecimentoPorCarroDataQuery(idCarro, dataFiltro, AbastecimentoActivity.this);
 		dataSource = new SimpleCursorAdapter(AbastecimentoActivity.this, 
@@ -372,10 +373,10 @@ public class AbastecimentoActivity extends BaseActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
 	    switch (id) {
-	    case DATE_DIALOG_ID:
-	    	return new DatePickerDialog(this,
-					                     mDateSetListener,
-					                     dpAno, dpMes, dpDia);
+		    case DATE_DIALOG_ID:
+		    	return new DatePickerDialog(this,
+						                     mDateSetListener,
+						                     dpAno, dpMes, dpDia);
 	    }
 	    return null;
 	}
@@ -386,9 +387,9 @@ public class AbastecimentoActivity extends BaseActivity {
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
     	switch (id) {
-    	case DATE_DIALOG_ID:
-    		((DatePickerDialog) dialog).updateDate(dpAno,
-								    	           dpMes,
+	    	case DATE_DIALOG_ID:
+	    		((DatePickerDialog) dialog).updateDate(dpAno,
+									    	           dpMes,
 								    	           dpDia);
     	} 	
     }
@@ -470,18 +471,18 @@ public class AbastecimentoActivity extends BaseActivity {
 		
 		menu_envia.setVisible(false);
 		switch (pagina_atual) {
-		case Pages.LISTAGEM_ABASTECIMENTOS:
-			menu_novo.setVisible(true);
-			menu_grava.setVisible(false);
-			break;
-		case Pages.FORM_ABASTECIMENTO:
-			menu_novo.setVisible(false);
-			menu_grava.setVisible(true);
-			break;
-		default:
-			menu_novo.setVisible(true);
-			menu_grava.setVisible(false);
-			break;
+			case Pages.LISTAGEM_ABASTECIMENTOS:
+				menu_novo.setVisible(true);
+				menu_grava.setVisible(false);
+				break;
+			case Pages.FORM_ABASTECIMENTO:
+				menu_novo.setVisible(false);
+				menu_grava.setVisible(true);
+				break;
+			default:
+				menu_novo.setVisible(true);
+				menu_grava.setVisible(false);
+				break;
 		}
 		return true;
     }
@@ -492,20 +493,20 @@ public class AbastecimentoActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-        case android.R.id.home:
-    		if (pagina_atual == Pages.LISTAGEM_ABASTECIMENTOS){
-    			return(super.onOptionsItemSelected(item));
-    		}
-        	redirecionaVoltar();
-            return(true);
-        case R.id.menu_novo:
-			Calendar c = Calendar.getInstance();
-			atualizaValoresData(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-            chamaCadastroAbastecimento();
-            return true;
-	    case R.id.menu_grava:
-	    	gravaAbastecimento();
-	        return true;
+	        case android.R.id.home:
+	    		if (pagina_atual == Pages.LISTAGEM_ABASTECIMENTOS){
+	    			return(super.onOptionsItemSelected(item));
+	    		}
+	        	redirecionaVoltar();
+	            return(true);
+	        case R.id.menu_novo:
+				Calendar c = Calendar.getInstance();
+				atualizaValoresData(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+	            chamaCadastroAbastecimento();
+	            return true;
+		    case R.id.menu_grava:
+		    	gravaAbastecimento();
+		        return true;
 		}
 	    return(super.onOptionsItemSelected(item));
 	}
@@ -523,18 +524,18 @@ public class AbastecimentoActivity extends BaseActivity {
 	 */
 	public void redirecionaVoltar(){
 		switch (pagina_atual) {
-		case Pages.LISTAGEM_ABASTECIMENTOS:
-			chamaTelaInicial();
-			break;
-		case Pages.FORM_ABASTECIMENTO:
-			chamaListaAbastecimentos();
-			habilitaDrawer();
-			menuEsquerda();
-			break;
-		default:
-			banco_de_dados.fechaBancoDeDados(AbastecimentoActivity.this);
-			finish();
-			break;
+			case Pages.LISTAGEM_ABASTECIMENTOS:
+				chamaTelaInicial();
+				break;
+			case Pages.FORM_ABASTECIMENTO:
+				chamaListaAbastecimentos();
+				habilitaDrawer();
+				menuEsquerda();
+				break;
+			default:
+				banco_de_dados.fechaBancoDeDados(AbastecimentoActivity.this);
+				finish();
+				break;
 		}
 	}
 }

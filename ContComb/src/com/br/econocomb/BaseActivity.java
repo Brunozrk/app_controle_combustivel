@@ -1,20 +1,22 @@
 package com.br.econocomb;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.br.banco.BancoDeDados;
 import com.br.uteis.Messages;
@@ -39,6 +41,52 @@ public abstract class BaseActivity extends ActionBarActivity {
         banco_de_dados = new BancoDeDados(BaseActivity.this);
     }
     
+    /**
+     * Classe para adaptar o array e colocar ícones nos itens do menu
+     * @author BRUNO
+     *
+     */
+    private class MyArrayAdapter extends ArrayAdapter<String>{
+
+        public MyArrayAdapter(Context context, int textViewResourceId, String[] objects) {
+            super(context, textViewResourceId, objects);
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup  parent) {
+        	LayoutInflater inflater = getLayoutInflater();
+        	View row = inflater.inflate(R.layout.drawer_listview_item, parent, false);
+        	TextView text = (TextView)row.findViewById(R.id.text1);
+        	
+        	switch (position) {
+				case 0: montaItemMenu(text, "Página Inicial", R.drawable.ic_action_home);
+						break;
+				case 1: montaItemMenu(text, "Carros", R.drawable.ic_action_car);
+						break;
+				case 2: montaItemMenu(text, "Abastecimetos", R.drawable.ic_action_refuelling);
+						break;
+				case 3: montaItemMenu(text, "Contato", R.drawable.ic_action_email);
+						break;
+				case 4: montaItemMenu(text, "Ajuda", R.drawable.ic_action_help_menu);
+						break;
+				case 5: montaItemMenu(text, "Sair", R.drawable.ic_action_cancel);
+						break;
+				default:break;
+			}
+        	return row;
+        }
+    }
+    
+    /**
+     * Monta item do menu
+     * @param text
+     * @param titulo
+     * @param drawable
+     */
+    public void montaItemMenu(TextView text, String titulo, int drawable){
+    	text.setText(titulo);
+		text.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0);
+    }
+    
 	/**
 	 * Carrega menu esquerda
 	 */
@@ -50,7 +98,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 		drawerListView = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-		drawerListView.setAdapter(new ArrayAdapter<String>(this,
+		drawerListView.setAdapter(new MyArrayAdapter(this,
                 R.layout.drawer_listview_item, drawerListViewItems));
       
 		// 2. App Icon 
