@@ -19,14 +19,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Contato" />
+                android:text="@string/contato" />
 
             <LinearLayout style="@style/FormLayout" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deixe uma mensagem para o desenvolvedor" />
+                    android:text="@string/deixa_uma_msg" />
 
                 <EditText
                     android:id="@+id/etMensagem"

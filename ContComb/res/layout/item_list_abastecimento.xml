@@ -16,7 +16,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
             android:paddingTop="10dp"
-            android:text="DATA" />
+            android:text="@string/list_data" />
 
         <TextView
             android:id="@+id/tvOdometro"
@@ -26,7 +26,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="ODOM" />
+            android:text="@string/list_odometro" />
 
         <TextView
             android:id="@+id/tvLitros"
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="LITROS" />
+            android:text="@string/list_litros" />
 
         <TextView
             android:id="@+id/tvMedia"
@@ -46,7 +46,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="MEDIA" />
+            android:text="@string/list_media" />
 
         <TextView
             android:id="@+id/tvObs"
@@ -56,7 +56,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="OBS" />
+            android:text="@string/list_obs" />
     </LinearLayout>
 
 </RelativeLayout>

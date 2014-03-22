@@ -9,14 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Abastecimento" />
+        android:text="@string/abastecimento" />
 
     <LinearLayout style="@style/FormLayout" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carro" />
+            android:text="@string/carro" />
 
         <Spinner
             android:id="@+id/spCarros"
@@ -35,14 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 android:layout_weight="1"
-                android:text="Odômetro (Km) *" />
+                android:text="@string/odometro" />
 
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_weight="1"
-                android:text="Litros *" />
+                android:text="@string/litros" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +87,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data *" />
+            android:text="@string/data" />
 
         <LinearLayout
             android:layout_width="match_parent"

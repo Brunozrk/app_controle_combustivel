@@ -1,4 +1,6 @@
-package com.br.econocomb;
+package com.br.contcomb;
+
+import com.br.econocomb.R;
 
 import android.os.Bundle;
 

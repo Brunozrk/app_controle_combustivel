@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="15dp"
-                android:text="Listagem - Abastecimentos" />
+                android:text="@string/listagem_abastecimentos" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,35 +56,35 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="DATA" />
+                    android:text="@string/cabec_data" />
 
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="KM" />
+                    android:text="@string/cabec_odometro" />
 
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="L" />
+                    android:text="@string/cabec_litros" />
 
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="MÉDIA (Km/L)" />
+                    android:text="@string/cabec_media" />
 
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="OBS" />
+                    android:text="@string/cabec_obs" />
             </LinearLayout>
 
             <ListView
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:text="Resumo" />
+                        android:text="@string/resumo" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -123,7 +123,7 @@
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:text="Abastecimentos:" />
+                        android:text="@string/resumo_abastecimentos" />
 
                     <TextView
                         android:id="@+id/tvAbastecimentos"
@@ -142,7 +142,7 @@
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:text="Média total:" />
+                        android:text="@string/resumo_media_total" />
 
                     <TextView
                         android:id="@+id/tvMediaTotal"

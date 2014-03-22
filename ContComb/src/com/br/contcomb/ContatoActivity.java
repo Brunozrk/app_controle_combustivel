@@ -1,4 +1,4 @@
-package com.br.econocomb;
+package com.br.contcomb;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.br.econocomb.R;
 import com.br.uteis.Messages;
 import com.br.uteis.Uteis;
 
@@ -78,7 +79,7 @@ public class ContatoActivity extends BaseActivity {
 		String message = etMensagem.getText().toString();
 		String to = "brunozrk@gmail.com";
 		if (message.equals("")){
-			util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, ContatoActivity.this);
+			util.mostraMensagem(CAMPO_OBRIGATORIO_TITULO, CAMPO_OBRIGATORIO, ContatoActivity.this);
 		}else{
 			Intent emailActivity = new Intent(Intent.ACTION_SEND);
 			
@@ -97,7 +98,7 @@ public class ContatoActivity extends BaseActivity {
 			
 			emailActivity.setType("message/rfc822");
 			
-			startActivity(Intent.createChooser(emailActivity, "Selecione seu provedor de Email"));
+			startActivity(Intent.createChooser(emailActivity, SELECIONE_PROVEDOR));
 		}
 	}
 	

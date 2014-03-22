@@ -25,51 +25,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Ajuda" />
+                    android:text="@string/ajuda" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Com esse aplicativo você terá mais controle de quanto o seu carro consome!" />
+                    android:text="@string/introducao" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Dicas:" />
+                    android:text="@string/dicas" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="• Para editar um registro, toque o mesmo na tela de listagem." />
+                    android:text="@string/ajuda_editar" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="• Para excluir um registro, toque e segure o mesmo na tela de listagem." />
+                    android:text="@string/ajuda_excluir" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="• Os campos com asterisco (*) são obrigatórios." />
+                    android:text="@string/ajuda_campo_obrigatorio" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="• Atente-se para os botões na Action Bar." />
+                    android:text="@string/ajuda_action_bar" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="20dp"
-                    android:text="• O menu fica ao lado esquerdo, clique no ícone do app." />
+                    android:text="@string/ajuda_menu" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

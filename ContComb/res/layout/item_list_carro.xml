@@ -16,7 +16,7 @@
             android:paddingLeft="5dp"
             android:paddingBottom="10dp"
             android:layout_gravity="center_vertical"
-            android:text="NOME" />
+            android:text="@string/list_nome" />
     </LinearLayout>
 
 </RelativeLayout>

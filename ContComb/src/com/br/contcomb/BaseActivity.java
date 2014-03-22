@@ -1,4 +1,4 @@
-package com.br.econocomb;
+package com.br.contcomb;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,16 +14,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.br.banco.BancoDeDados;
-import com.br.uteis.Messages;
+import com.br.econocomb.R;
 import com.br.uteis.Uteis;
 import com.br.uteis.Variaveis;
 
 public abstract class BaseActivity extends ActionBarActivity {
+	
+	String SIM;
+	String NAO;
+
+	String CONFIRMACAO;
+	
+	String SELECIONE_PROVEDOR;
+
+	String CAMPO_OBRIGATORIO_TITULO;
+	String VALOR_INVALIDO_TITULO;
+	String ETANOL_OU_GASOLINA_TITULO;
+
+	String ETANOL;
+	String GASOLINA;
+
+	String SUCESSO_CADASTRO;
+	String SUCESSO_EDICAO;
+	String SUCESSO_EXCLUSAO;
+
+	String CAMPO_OBRIGATORIO;
+	String CAMPO_NAO_PODE_SER_ZERO;
+	
+	String CONFIRMA_EXCLUSAO;
+	String AVISO_ABASTECIMENTOS_DO_CARRO;
+	
+	String NAO_HA_CARRO_CADASTRADO;
+
+	String ERRO;
+	String ERRO_LISTAR;
+	String ERRO_CARREGAR_REGISTRO;
+	String ERRO_GRAVAR_REGISTRO;
 	
 	BancoDeDados banco_de_dados;
 	
@@ -38,12 +68,12 @@ public abstract class BaseActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inicializaMensagens();
         banco_de_dados = new BancoDeDados(BaseActivity.this);
     }
     
     /**
      * Classe para adaptar o array e colocar ícones nos itens do menu
-     * @author BRUNO
      *
      */
     private class MyArrayAdapter extends ArrayAdapter<String>{
@@ -58,17 +88,17 @@ public abstract class BaseActivity extends ActionBarActivity {
         	TextView text = (TextView)row.findViewById(R.id.text1);
         	
         	switch (position) {
-				case 0: montaItemMenu(text, "Página Inicial", R.drawable.ic_action_home);
+				case 0: montaItemMenu(text, drawerListViewItems[0], R.drawable.ic_action_home);
 						break;
-				case 1: montaItemMenu(text, "Carros", R.drawable.ic_action_car);
+				case 1: montaItemMenu(text, drawerListViewItems[1], R.drawable.ic_action_car);
 						break;
-				case 2: montaItemMenu(text, "Abastecimetos", R.drawable.ic_action_refuelling);
+				case 2: montaItemMenu(text, drawerListViewItems[2], R.drawable.ic_action_refuelling);
 						break;
-				case 3: montaItemMenu(text, "Contato", R.drawable.ic_action_email);
+				case 3: montaItemMenu(text, drawerListViewItems[3], R.drawable.ic_action_email);
 						break;
-				case 4: montaItemMenu(text, "Ajuda", R.drawable.ic_action_help_menu);
+				case 4: montaItemMenu(text, drawerListViewItems[4], R.drawable.ic_action_help_menu);
 						break;
-				case 5: montaItemMenu(text, "Sair", R.drawable.ic_action_cancel);
+				case 5: montaItemMenu(text, drawerListViewItems[5], R.drawable.ic_action_cancel);
 						break;
 				default:break;
 			}
@@ -177,7 +207,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 		            break;
 		    // Abastecimentos
 			case 2: if (banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO).getCount() == 0){
-						util.mostraToast(Messages.NAO_HA_CARRO_CADASTRADO, BaseActivity.this);
+						util.mostraToast(NAO_HA_CARRO_CADASTRADO, BaseActivity.this);
 					}else{
 						Intent iAbastecimento = new Intent(getBaseContext(), AbastecimentoActivity.class);
 						startActivity(iAbastecimento);
@@ -203,6 +233,43 @@ public abstract class BaseActivity extends ActionBarActivity {
 			}
 	    	drawerLayout.closeDrawer(drawerListView);
 	    }
+	}
+	/**
+	 * Inicializa variáveis com mensagens do string.xml
+	 * Isso é feito para internacionalização do aplicativo
+	 */
+	public void inicializaMensagens(){
+		
+		SIM = getResources().getString(R.string.sim);
+		NAO = getResources().getString(R.string.nao);
+
+		CONFIRMACAO = getResources().getString(R.string.confirmacao);
+
+		SELECIONE_PROVEDOR = getResources().getString(R.string.selecione_provedor);
+
+		CAMPO_OBRIGATORIO_TITULO = getResources().getString(R.string.campo_obrigatorio_titulo);
+		VALOR_INVALIDO_TITULO = getResources().getString(R.string.valor_invalido_titulo);
+		ETANOL_OU_GASOLINA_TITULO = getResources().getString(R.string.etanol_ou_gasolina_titulo);
+		
+		ETANOL = getResources().getString(R.string.etanol);
+		GASOLINA = getResources().getString(R.string.gasolina);
+		
+		SUCESSO_CADASTRO = getResources().getString(R.string.sucesso_cadastro);
+		SUCESSO_EDICAO = getResources().getString(R.string.sucesso_edicao);
+		SUCESSO_EXCLUSAO = getResources().getString(R.string.sucesso_exclusao);;
+
+		CAMPO_OBRIGATORIO = getResources().getString(R.string.campo_obrigatorio);
+		CAMPO_NAO_PODE_SER_ZERO = getResources().getString(R.string.campo_nao_pode_ser_zero);
+		
+		CONFIRMA_EXCLUSAO = getResources().getString(R.string.confirma_exclusao);
+		AVISO_ABASTECIMENTOS_DO_CARRO = getResources().getString(R.string.aviso_abastecimentos_do_carro);
+		
+		NAO_HA_CARRO_CADASTRADO = getResources().getString(R.string.nao_ha_carro_cadastrado);
+
+		ERRO = getResources().getString(R.string.erro);
+		ERRO_LISTAR = getResources().getString(R.string.erro_listar);
+		ERRO_CARREGAR_REGISTRO = getResources().getString(R.string.erro_carregar_registro);
+		ERRO_GRAVAR_REGISTRO = getResources().getString(R.string.erro_gravar_registro);
 	}
 	
 //	SimpleCursorAdapter.ViewBinder binder = new SimpleCursorAdapter.ViewBinder() {

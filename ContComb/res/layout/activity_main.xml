@@ -25,20 +25,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Bem Vindo ao ContComb!" />
+                    android:text="@string/bem_vindo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Com esse aplicativo você terá mais controle de quanto o seu carro consome!" />
+                    android:text="@string/introducao" />
 
                 <TextView
                     style="@style/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="O que compensa?" />
+                    android:text="@string/o_que_compensa" />
 
                 <LinearLayout
                     style="@style/FormLayout"
@@ -53,13 +53,13 @@
                         android:layout_marginRight="2dp"
                         android:layout_weight="0.3"
                         android:background="@drawable/rounded_edittext"
-                        android:hint="R$ Etanol"
+                        android:hint="@string/rs_etanol"
                         android:inputType="numberDecimal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ou" />
+                        android:text="@string/ou" />
 
                     <EditText
                         android:id="@+id/etGasolina"
@@ -68,7 +68,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_weight="0.3"
                         android:background="@drawable/rounded_edittext"
-                        android:hint="R$ Gasolina"
+                        android:hint="@string/rs_gasolina"
                         android:inputType="numberDecimal" />
 
                     <ImageButton
@@ -79,7 +79,7 @@
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/icon_button"
                         android:src="@drawable/ic_action_help"
-                        android:title="Etanol ou Gasolina?" />
+                        android:title="@string/etanol_ou_gasolina_titulo" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

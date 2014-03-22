@@ -1,4 +1,4 @@
-package com.br.econocomb;
+package com.br.contcomb;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.br.banco.BancoDeDados;
+import com.br.econocomb.R;
 import com.br.uteis.Messages;
 import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
@@ -66,7 +67,7 @@ public class CarroActivity extends BaseActivity {
 			carregaListaCarros();
 			
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_LISTAR + e.getMessage(), CarroActivity.this);
+			util.mostraMensagem(ERRO, ERRO_LISTAR + e.getMessage(), CarroActivity.this);
 		}
 
 	}
@@ -105,19 +106,22 @@ public class CarroActivity extends BaseActivity {
     			idCarro = cursor.getInt(cursor.getColumnIndex("_id"));
 
 				util.confirm(CarroActivity.this, 
-						 "Confirmação",
-						 Messages.CONFIRMA_EXCLUSAO + Messages.AVISO_ABASTECIMENTOS_DO_CARRO, 
-						 "Sim", 
-						 "Não",
+						 CONFIRMACAO,
+						 CONFIRMA_EXCLUSAO + AVISO_ABASTECIMENTOS_DO_CARRO, 
+						 SIM, 
+						 NAO,
 						 new Runnable() {
 							public void run() {
-								banco_de_dados.excluirCarroQuery(CarroActivity.this, idCarro);
-								util.animation_slide_out_right(CarroActivity.this, view, new Runnable() { 
-																					public void run() { 
-																						carregaListaCarros();
-																						menuEsquerda();
-																					}
-																			});
+								Boolean sucesso = banco_de_dados.excluirCarroQuery(CarroActivity.this, idCarro);
+								if (sucesso){
+									util.mostraToast(SUCESSO_EXCLUSAO, CarroActivity.this);
+									util.animation_slide_out_right(CarroActivity.this, view, new Runnable() { 
+																												public void run() { 
+																													carregaListaCarros();
+																													menuEsquerda();
+																												}
+																											});
+								}
 							}
 						}, null);
     
@@ -169,10 +173,16 @@ public class CarroActivity extends BaseActivity {
 	public void gravaCarro(){
 		String marca = etMarca.getText().toString().trim();
 		if (marca.equals("")){
-			util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, CarroActivity.this);
+			util.mostraMensagem(CAMPO_OBRIGATORIO_TITULO, CAMPO_OBRIGATORIO, CarroActivity.this);
 		}
 		else{
-			banco_de_dados.gravarCarroQuery(CarroActivity.this, marca, idCarro);
+			int retorno = banco_de_dados.gravarCarroQuery(CarroActivity.this, marca, idCarro);
+			if (retorno == 1){
+				util.mostraToast(SUCESSO_CADASTRO, CarroActivity.this);
+			}else{
+				util.mostraToast(SUCESSO_EDICAO, CarroActivity.this);
+			}
+			
 			InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 			chamaListaCarros();
@@ -195,7 +205,7 @@ public class CarroActivity extends BaseActivity {
 			etMarca.setText(cursor.getString(cursor.getColumnIndex("marca")));
 
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), CarroActivity.this);
+			util.mostraMensagem(ERRO, ERRO_CARREGAR_REGISTRO + e.getMessage(), CarroActivity.this);
 		}
 	}
 	

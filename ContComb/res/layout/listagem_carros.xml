@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="15dp"
-                android:text="Listagem - Carros" />
+                android:text="@string/listagem_carros" />
 
             <EditText
                 android:id="@+id/etFiltro"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_edittext"
-                android:hint="Filtro..." />
+                android:hint="@string/filtro" />
 
             <ListView
                 android:id="@+id/listViewCarros"

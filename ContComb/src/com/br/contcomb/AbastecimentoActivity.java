@@ -1,4 +1,4 @@
-package com.br.econocomb;
+package com.br.contcomb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.br.banco.BancoDeDados;
+import com.br.econocomb.R;
 import com.br.uteis.Messages;
 import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
@@ -94,7 +95,7 @@ public class AbastecimentoActivity extends BaseActivity {
 			carregaListaAbastecimentos();
 			
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_LISTAR + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem(ERRO, ERRO_LISTAR + e.getMessage(), AbastecimentoActivity.this);
 		}
 
 	}
@@ -112,30 +113,36 @@ public class AbastecimentoActivity extends BaseActivity {
 		// Captura e filtra
 		capturaItemSelecionadoSpinnerParaFiltrar();
 		
+		// Edição click
 		listContentAbastecimentos.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    		chamaEdicaoAbastecimento(position);
 			    }
 		});
 		
+		// Excluir click
 		listContentAbastecimentos.setOnItemLongClickListener(new OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> arg0, final View view, int position, long id) {
     			cursor.moveToPosition(position);
     			idAbastecimento = cursor.getInt(cursor.getColumnIndex("_id"));
 				util.confirm(AbastecimentoActivity.this, 
-						 "Confirmação",
-						 Messages.CONFIRMA_EXCLUSAO, 
-						 "Sim", 
-						 "Não",
+						 CONFIRMACAO,
+						 CONFIRMA_EXCLUSAO, 
+						 SIM, 
+						 NAO,
 						 new Runnable() {
 							public void run() {
-								banco_de_dados.excluirAbastecimentoQuery(AbastecimentoActivity.this, idAbastecimento);
-								util.animation_slide_out_right(AbastecimentoActivity.this, view, new Runnable() { 
-																								public void run() { 
-																									carregaListaAbastecimentos();
-																									menuEsquerda();
-																								}
-																							});
+								Boolean sucesso = banco_de_dados.excluirAbastecimentoQuery(AbastecimentoActivity.this, idAbastecimento);
+								if (sucesso){
+									util.mostraToast(SUCESSO_EXCLUSAO, AbastecimentoActivity.this);
+									util.animation_slide_out_right(AbastecimentoActivity.this, view, new Runnable() { 
+																														public void run() { 
+																															carregaListaAbastecimentos();
+																															menuEsquerda();
+																														}
+																													});
+									
+								}
 							}
 						}, null);
     
@@ -174,19 +181,24 @@ public class AbastecimentoActivity extends BaseActivity {
 			String odometro = etOdometro.getText().toString().trim();  
 			String obs = etObs.getText().toString().trim();
 			if (litros.equals("") || odometro.equals("")){
-				util.mostraMensagem("Campo Obrigatório", Messages.CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
+				util.mostraMensagem(CAMPO_OBRIGATORIO_TITULO, CAMPO_OBRIGATORIO, AbastecimentoActivity.this);
 			}
 			else if(util.convertStringParaDouble(litros) == 0 || util.convertStringParaDouble(odometro) == 0){
-				util.mostraMensagem("Valor Inválido", Messages.CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
+				util.mostraMensagem(VALOR_INVALIDO_TITULO, CAMPO_NAO_PODE_SER_ZERO, AbastecimentoActivity.this);
 			}
 				else{
-					banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, util.convertStringParaDouble(odometro), util.convertStringParaDouble(litros), obs, data, idCarro, idAbastecimento);
+					int retorno = banco_de_dados.gravarAbastecimentoQuery(AbastecimentoActivity.this, util.convertStringParaDouble(odometro), util.convertStringParaDouble(litros), obs, data, idCarro, idAbastecimento);
+					if (retorno == 1){
+						util.mostraToast(SUCESSO_CADASTRO, AbastecimentoActivity.this);
+					}else{
+						util.mostraToast(SUCESSO_EDICAO, AbastecimentoActivity.this);
+					}
 					chamaListaAbastecimentos();
 					habilitaDrawer();
 					menuEsquerda();
 				}
 		}  catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_GRAVAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem(ERRO, ERRO_GRAVAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
 			capturaItemSelecionadoSpinnerParaGravar();
 		}
 	}
@@ -239,7 +251,7 @@ public class AbastecimentoActivity extends BaseActivity {
 			spCarros.setSelection(postionCursorSpinnerCarro);
 			
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
+			util.mostraMensagem(ERRO, ERRO_CARREGAR_REGISTRO + e.getMessage(), AbastecimentoActivity.this);
 		}
 	}
 	

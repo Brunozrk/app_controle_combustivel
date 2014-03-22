@@ -50,7 +50,7 @@ public class BancoDeDados{
 			bancoDeDados.execSQL(sql_tabela_carro);
 			bancoDeDados.execSQL(sql_tabela_abastecimento);
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_ABRIR_CRIAR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_ABRIR_CRIAR + e.getMessage(), context);
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class BancoDeDados{
 		try {
 			bancoDeDados.close();
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_FECHAR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_FECHAR + e.getMessage(), context);
 		}
 	}
 
@@ -92,28 +92,29 @@ public class BancoDeDados{
 	 * @param marca
 	 * @param idCarro
 	 */
-	public void gravarCarroQuery(Context context, String marca, int idCarro) {
+	public int gravarCarroQuery(Context context, String marca, int idCarro) {
 		try {
 
 			String sql = "";
-			String sucesso = "";
+			int sucesso = 1;
 
 			if (idCarro != 0) {
 				sql = "UPDATE " + TABELA_CARRO  + " SET marca = '" + marca + "' WHERE _id = " + idCarro;
-				sucesso = Messages.SUCESSO_EDICAO;
+				sucesso = 2;
 
 			} else {
 				sql = "INSERT INTO " + TABELA_CARRO + " (marca) VALUES ("+ "'" + marca + "')";
-				sucesso = Messages.SUCESSO_CADASTRO;
+				sucesso = 1;
 			}
 			
 			
 			bancoDeDados.execSQL(sql);
 
-			util.mostraToast(sucesso, context);
+			return sucesso;
 
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			return 0;
 		}
 	}	
 	
@@ -122,18 +123,19 @@ public class BancoDeDados{
 	 * @param context
 	 * @param idCarro
 	 */
-	public void excluirCarroQuery(Context context, int idCarro) {
+	public boolean excluirCarroQuery(Context context, int idCarro) {
 		try {
 
 			String sql_carro = "DELETE FROM " + TABELA_CARRO + " WHERE _id = " + idCarro;
 			String sql_abastecimento = "DELETE FROM " + TABELA_ABASTECIMENTO + " WHERE carro_id = " + idCarro;
 			bancoDeDados.execSQL(sql_carro);
 			bancoDeDados.execSQL(sql_abastecimento);
-
-			util.mostraToast(Messages.SUCESSO_EXCLUSAO, context);
+			
+			return true;
 
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			return false;
 		}
 	}
 	
@@ -244,7 +246,7 @@ public class BancoDeDados{
 					null, 
 					"date DESC, _id Desc");
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
 			return null;
 		}
 	    
@@ -265,7 +267,7 @@ public class BancoDeDados{
 					media += Double.parseDouble(cursor.getString(cursor.getColumnIndex("media")).replace(",", "."));
 				}
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
 		}finally{
 			return media;
 		}
@@ -281,12 +283,12 @@ public class BancoDeDados{
 	 * @param idCarro
 	 * @param idAbastecimento
 	 */
-	public void gravarAbastecimentoQuery(Context context, Double odometro, Double litros, String obs, StringBuilder data, int idCarro,  int idAbastecimento) {
+	public int gravarAbastecimentoQuery(Context context, Double odometro, Double litros, String obs, StringBuilder data, int idCarro,  int idAbastecimento) {
 		try {
 
 			
 			String sql = "";
-			String sucesso = "";
+			int sucesso = 0;
 			String media = util.tresCasasDecimais(odometro / litros);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -308,7 +310,7 @@ public class BancoDeDados{
 									  "date = '" + date + "', " +
 									  "carro_id = '" + idCarro + "'" +
 									  " WHERE _id = " + idAbastecimento;
-				sucesso = Messages.SUCESSO_EDICAO;
+				sucesso = 2;
 			} else {
 				sql = "INSERT INTO " + TABELA_ABASTECIMENTO + " (odometro, litros, media, obs, date, carro_id) " +
 					  "VALUES ("+ "'" + odometro + "', " +
@@ -319,15 +321,14 @@ public class BancoDeDados{
 								  "'" + idCarro + "'" +
 								  ")";
 				
-				sucesso = Messages.SUCESSO_CADASTRO;
+				sucesso = 1;
 			}
 			
 			bancoDeDados.execSQL(sql);
-
-			util.mostraToast(sucesso, context);
-
+			return sucesso;
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			return 0;
 		}
 	}
 
@@ -336,17 +337,18 @@ public class BancoDeDados{
 	 * @param context
 	 * @param idAbastecimento
 	 */
-	public void excluirAbastecimentoQuery(Context context, int idAbastecimento) {
+	public boolean excluirAbastecimentoQuery(Context context, int idAbastecimento) {
 		try {
 
 			String sql = "DELETE FROM " + TABELA_ABASTECIMENTO + " WHERE _id = " + idAbastecimento;
 
 			bancoDeDados.execSQL(sql);
 
-			util.mostraToast(Messages.SUCESSO_EXCLUSAO, context);
+			return true;
 
 		} catch (Exception e) {
-			util.mostraMensagem("Erro", Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			return false;
 		}
 	}
 

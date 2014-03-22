@@ -9,14 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Carro" />
+        android:text="@string/carro" />
 
     <LinearLayout style="@style/FormLayout" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Marca *" />
+            android:text="@string/marca" />
 
         <EditText
             android:id="@+id/etMarca"

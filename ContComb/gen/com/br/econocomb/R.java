@@ -1162,6 +1162,7 @@ containing a value of this type.
         public static final int main_menu=0x7f0d0001;
     }
     public static final class string {
+        public static final int abastecimento=0x7f0a0020;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0a0001;
@@ -1203,9 +1204,68 @@ containing a value of this type.
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
         public static final int action_settings=0x7f0a000e;
+        public static final int ajuda=0x7f0a0019;
+        public static final int ajuda_action_bar=0x7f0a001e;
+        public static final int ajuda_campo_obrigatorio=0x7f0a001d;
+        public static final int ajuda_editar=0x7f0a001b;
+        public static final int ajuda_excluir=0x7f0a001c;
+        public static final int ajuda_menu=0x7f0a001f;
         public static final int app_name=0x7f0a000d;
-        public static final int drawer_close=0x7f0a0010;
-        public static final int drawer_open=0x7f0a000f;
+        public static final int aviso_abastecimentos_do_carro=0x7f0a0045;
+        public static final int bem_vindo=0x7f0a0013;
+        public static final int cabec_data=0x7f0a002f;
+        public static final int cabec_litros=0x7f0a0031;
+        public static final int cabec_media=0x7f0a0032;
+        public static final int cabec_obs=0x7f0a0033;
+        public static final int cabec_odometro=0x7f0a0030;
+        public static final int campo_nao_pode_ser_zero=0x7f0a0043;
+        public static final int campo_obrigatorio=0x7f0a0042;
+        public static final int campo_obrigatorio_titulo=0x7f0a003a;
+        public static final int carro=0x7f0a0021;
+        public static final int confirma_exclusao=0x7f0a0044;
+        public static final int confirmacao=0x7f0a0011;
+        public static final int contato=0x7f0a0038;
+        public static final int data=0x7f0a0025;
+        public static final int deixa_uma_msg=0x7f0a0039;
+        public static final int dicas=0x7f0a001a;
+        public static final int drawer_close=0x7f0a004c;
+        public static final int drawer_open=0x7f0a004b;
+        public static final int erro=0x7f0a0047;
+        public static final int erro_carregar_registro=0x7f0a0049;
+        public static final int erro_gravar_registro=0x7f0a004a;
+        public static final int erro_listar=0x7f0a0048;
+        public static final int etanol=0x7f0a003d;
+        public static final int etanol_ou_gasolina_titulo=0x7f0a003c;
+        public static final int filtro=0x7f0a0037;
+        public static final int gasolina=0x7f0a003e;
+        public static final int introducao=0x7f0a0014;
+        public static final int list_data=0x7f0a0027;
+        public static final int list_litros=0x7f0a0029;
+        public static final int list_media=0x7f0a002a;
+        public static final int list_nome=0x7f0a002c;
+        public static final int list_obs=0x7f0a002b;
+        public static final int list_odometro=0x7f0a0028;
+        public static final int listagem_abastecimentos=0x7f0a002d;
+        public static final int listagem_carros=0x7f0a002e;
+        public static final int litros=0x7f0a0023;
+        public static final int marca=0x7f0a0026;
+        public static final int nao=0x7f0a0010;
+        public static final int nao_ha_carro_cadastrado=0x7f0a0046;
+        public static final int o_que_compensa=0x7f0a0015;
+        public static final int obs=0x7f0a0024;
+        public static final int odometro=0x7f0a0022;
+        public static final int ou=0x7f0a0017;
+        public static final int resumo=0x7f0a0034;
+        public static final int resumo_abastecimentos=0x7f0a0035;
+        public static final int resumo_media_total=0x7f0a0036;
+        public static final int rs_etanol=0x7f0a0016;
+        public static final int rs_gasolina=0x7f0a0018;
+        public static final int selecione_provedor=0x7f0a0012;
+        public static final int sim=0x7f0a000f;
+        public static final int sucesso_cadastro=0x7f0a003f;
+        public static final int sucesso_edicao=0x7f0a0040;
+        public static final int sucesso_exclusao=0x7f0a0041;
+        public static final int valor_invalido_titulo=0x7f0a003b;
     }
     public static final class style {
         /** 
