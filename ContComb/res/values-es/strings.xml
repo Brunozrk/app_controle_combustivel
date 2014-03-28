@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ContComb</string>
+    <string name="action_settings">Configuración</string>
+
+    <string-array name="items">
+        <item>Página Principal</item>
+        <item>Coches</item>
+        <item>Suministros</item>
+        <item>Contacto</item>
+        <item>Ayuda</item>
+        <item>Salir</item>
+    </string-array>
+    
+    <string name="sim">Sí</string>
+    <string name="nao">No</string>
+    <string name="confirmacao">Confirmación</string>
+
+    <string name="selecione_provedor">Seleccione su proveedor de correo</string>
+
+    <string name="bem_vindo">Bienvenido a ContComb!</string>
+    <string name="introducao">Con esta aplicación usted tendrá más control de cómo consume su coche!</string>
+    <string name="o_que_compensa">Que compensa?*</string>
+    <string name="nota">*Este cálculo es válido sólo para las estaciones en Brasil.</string>
+    <string name="rs_etanol">EUR Etanol</string>
+    <string name="ou">o</string>
+    <string name="rs_gasolina">EUR Gasolina</string>
+    
+    <string name="ajuda">Ayuda</string>
+    <string name="dicas">Consejos:</string>
+    <string name="ajuda_editar">• Para editar un registro , toque en la pantalla de la lista.</string>
+    <string name="ajuda_excluir">• Para eliminar un registro , toque y mantenga en la vista de lista.</string>
+    <string name="ajuda_campo_obrigatorio">• Los campos con asterisco (*) son obligatorios.</string>
+    <string name="ajuda_action_bar">• Preste atención a los botones de la barra de acción.</string>
+    <string name="ajuda_menu">• El menú está en el lado izquierdo , haga clic en el icono de la aplicación .</string>
+    
+    <string name="abastecimento">Suministro</string>
+    <string name="carro">Coche</string>
+    <string name="odometro">Cuentakilómetros (Km) *</string>
+    <string name="litros">Litros *</string>
+    <string name="obs">Comentarios</string>
+    <string name="data">Fecha *</string>
+    
+    <string name="marca">Marca *</string>
+    
+    <string name="list_data">FECHA</string>
+    <string name="list_odometro">ODOM</string>
+    <string name="list_litros">LITROS</string>
+    <string name="list_media">PROMEDIO</string>
+    <string name="list_obs">COM</string>
+
+    <string name="list_nome">NOMBRE</string>
+
+    <string name="listagem_abastecimentos">Lista - Suministros</string>
+    <string name="listagem_carros">Lista - Coches</string>
+    
+    <string name="cabec_data">FECHA</string>
+    <string name="cabec_odometro">KM</string>
+    <string name="cabec_litros">L</string>
+    <string name="cabec_media">PROMEDIO (Km/L)</string>
+    <string name="cabec_obs">COM</string>
+
+    <string name="resumo">Resumen</string>
+    <string name="resumo_abastecimentos">Suministros:</string>
+    <string name="resumo_media_total">Total promedio:</string>
+
+    <string name="filtro">Filtro...</string>
+
+    <string name="contato">Contacto</string>
+    <string name="deixa_uma_msg">Deja un mensaje para el desarrollador</string>
+    
+    <string name="campo_obrigatorio_titulo">Campo obligatorio</string>
+    <string name="valor_invalido_titulo">Valor no válido</string>
+    <string name="etanol_ou_gasolina_titulo">Etanol o Gasolina ?</string>
+    
+    <string name="etanol">El valor de etanol es INFERIOR al 70 % de la gasolina. Compensa con el combustible ETANOL. </string>
+    <string name="gasolina">El valor de etanol es MAYOR que el 70 % de la gasolina . Compensa con el combustible GASOLINA. </string>
+
+    <string name="sucesso_cadastro">Registro incluido con éxito!</string>
+    <string name="sucesso_edicao">Registro actualizado correctamente!</string>
+    <string name="sucesso_exclusao">Registro eliminado correctamente!</string>
+    
+    <string name="campo_obrigatorio">Hay campos obligatorios que no fueron cumplidos.</string>
+    <string name="campo_nao_pode_ser_zero">Campos no puede tener el valor cero (0).</string>
+    
+    <string name="confirma_exclusao">Realmente desea eliminar el registro? </string>
+    <string name="aviso_abastecimentos_do_carro">También se eliminan los suministros relacionados con este coche.</string>
+    
+    <string name="nao_ha_carro_cadastrado">Para acceder a esta página es necesario tener al menos un vehículo registrado.</string>
+    
+    <string name="erro">Error</string>
+    <string name="erro_listar">Error al cargar la lista: </string>
+    <string name="erro_carregar_registro">Error al cargar el registro: </string>
+    <string name="erro_gravar_registro">Error al escribir el registro: </string>
+
+    <string name="drawer_open">Abrir navigation drawer</string>
+    <string name="drawer_close">Cerrar navigation drawer</string>
+</resources>

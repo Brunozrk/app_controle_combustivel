@@ -17,11 +17,12 @@
     <string name="nao">No</string>
     <string name="confirmacao">Confirmation</string>
 
-    <string name="selecione_provedor">Select your email provider</string>    
+    <string name="selecione_provedor">Select your Email provider</string>    
         
-    <string name="bem_vindo">Walcome to ContComb!</string>
-    <string name="introducao">With this app you will have more control of how your car consumes!</string>
-    <string name="o_que_compensa">What compensates?</string>
+    <string name="bem_vindo">Welcome to ContComb!</string>
+    <string name="introducao">With this app you will have better control of how does your car consumes!</string>
+    <string name="o_que_compensa">What does worth?</string>
+    <string name="nota">*This calculation is valid only for stations in Brazil.</string>
     <string name="rs_etanol">R$ Ethanol</string>
     <string name="ou">or</string>
     <string name="rs_gasolina">R$ Gasoline</string>    
@@ -29,10 +30,10 @@
     <string name="ajuda">Help</string>
     <string name="dicas">Tips:</string>
     <string name="ajuda_editar">• To edit a record, tap it in the list screen.</string>
-    <string name="ajuda_excluir">• To delete a record, tap and hold it in List view.</string>
+    <string name="ajuda_excluir">• To delete a record, tap and hold it in list view.</string>
     <string name="ajuda_campo_obrigatorio">• Fields with an asterisk (*) are required.</string>
-    <string name="ajuda_action_bar">• Attention is drawn to the buttons in the Action Bar.</string>
-    <string name="ajuda_menu">• The menu is on the left side, click on the app icon.</string>
+    <string name="ajuda_action_bar">• Pay attention to the buttons on the Action Bar.</string>
+    <string name="ajuda_menu">• Menu is on the left side, click on the app icon.</string>
 
     <string name="abastecimento">Supply</string>
     <string name="carro">Car</string>
@@ -46,7 +47,7 @@
     <string name="list_data">DATE</string>
     <string name="list_odometro">ODOM</string>
     <string name="list_litros">LITERS</string>
-    <string name="list_media">MEDIA</string>
+    <string name="list_media">AVERAGE</string>
     <string name="list_obs">OBS</string>
 
     <string name="list_nome">NAME</string>
@@ -57,7 +58,7 @@
     <string name="cabec_data">DATE</string>
     <string name="cabec_odometro">KM</string>
     <string name="cabec_litros">L</string>
-    <string name="cabec_media">MeDIA (Km/L)</string>
+    <string name="cabec_media">AVERAGE (Km/L)</string>
     <string name="cabec_obs">OBS</string>
 
     <string name="resumo">Summary</string>
@@ -68,31 +69,31 @@
     
     <string name="contato">Contact</string>
     <string name="deixa_uma_msg">Leave a message for the developer</string>
-    
+
     <string name="campo_obrigatorio_titulo">Required Field</string>
-    <string name="valor_invalido_titulo">Invalid value</string>
-    <string name="etanol_ou_gasolina_titulo">Ethanol or gasoline?</string>
+    <string name="valor_invalido_titulo">Invalid Value</string>
+    <string name="etanol_ou_gasolina_titulo">Ethanol or Gasoline?</string>
     
-    <string name="etanol">The value of ethanol is LESS than 70% of gasoline. Compensates with ETHANOL fuel. </string>
-    <string name="gasolina">The value of ethanol is GREATER than 70% of gasoline. Compensates with GASOLINE fuel. </string>
+    <string name="etanol">The value of ethanol is LESS than 70 % of gasoline. Worths ETHANOL as fuel. </string>
+    <string name="gasolina">The value of ethanol is GREATER than 70 % of gasoline. Worths GASOLINE as fuel. </string>
+
+    <string name="sucesso_cadastro">Registry successfully included!</string>
+    <string name="sucesso_edicao">Registry successfully updated!</string>
+    <string name="sucesso_exclusao">Registry successfully deleted!</string>
     
-    <string name="sucesso_cadastro">Record registered successfully.</string>
-    <string name="sucesso_edicao">Record updated successfully!</string>
-    <string name="sucesso_exclusao">Record successfully deleted!</string>
-    
-    <string name="campo_obrigatorio">There are required fields that were not filled.</string>
-    <string name="campo_nao_pode_ser_zero">Fields can not have the value zero (0).</string>
+    <string name="campo_obrigatorio">There are required fields in blank.</string>
+    <string name="campo_nao_pode_ser_zero">Fields can not have value zero (0).</string>
     
     <string name="confirma_exclusao">Do you really want to delete the record? </string>
-    <string name="aviso_abastecimentos_do_carro">Supplies related to this car will also be removed.</string>
+    <string name="aviso_abastecimentos_do_carro">Related supplies of this car will also be removed.</string>
     
-    <string name="nao_ha_carro_cadastrado">To access this page you need to have at least one registered car.</string>
+    <string name="nao_ha_carro_cadastrado">To access this page you need at least one registered car.</string>
     
     <string name="erro">Error</string>
-    <string name="erro_listar">Error loading the list:</string>
-    <string name="erro_carregar_registro">Error loading the record:</string>
-    <string name="erro_gravar_registro">Error writing to the registry:</string>
-    
+    <string name="erro_listar">Error loading the list: </string>
+    <string name="erro_carregar_registro">Error loading the record: </string>
+    <string name="erro_gravar_registro">Error writing the registry: </string>
+
     <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_close">Navigation drawer close</string>
 </resources>

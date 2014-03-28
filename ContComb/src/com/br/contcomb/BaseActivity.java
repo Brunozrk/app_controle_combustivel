@@ -3,6 +3,8 @@ package com.br.contcomb;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.br.banco.BancoDeDados;
@@ -276,7 +279,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 //	    @Override
 //	    public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 //	    	int cont = cursor.getPosition();
-//	    	if ((cont) % 2 != 1) {
+//	    	if ((cont) % 2 == 1) {
 //	    	    view.setBackgroundColor(Color.parseColor("#80f9f9f9"));
 //	    	} 
 //	        return false;

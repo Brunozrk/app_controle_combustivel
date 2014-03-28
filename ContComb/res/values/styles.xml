@@ -18,6 +18,10 @@
         <item name="android:buttonStyle">@style/button</item>
     </style>
 
+    <style name="WhiteText">
+    	<item name="android:textColor">#F4F4F4</item>
+	</style>
+	
     <style name="BackgroundLinearLayout">
     	<item name="android:background">@drawable/darkgrain</item>
 		<item name="android:layout_width">match_parent</item>

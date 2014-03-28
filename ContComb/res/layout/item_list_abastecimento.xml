@@ -10,8 +10,8 @@
         <TextView
             android:id="@+id/tvData"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_weight="25.5"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
@@ -21,8 +21,8 @@
         <TextView
             android:id="@+id/tvOdometro"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:layout_weight="17.5"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -31,8 +31,8 @@
         <TextView
             android:id="@+id/tvLitros"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:layout_weight="17.5"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -41,8 +41,8 @@
         <TextView
             android:id="@+id/tvMedia"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:layout_weight="17.5"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -52,11 +52,18 @@
             android:id="@+id/tvObs"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="25.5"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="@string/list_obs" />
+
+        <ImageView
+            android:id="@+id/imArrow"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_action_next_item" />
     </LinearLayout>
 
 </RelativeLayout>

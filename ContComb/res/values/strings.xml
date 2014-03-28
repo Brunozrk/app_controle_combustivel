@@ -21,7 +21,8 @@
 
     <string name="bem_vindo">Bem Vindo ao ContComb!</string>
     <string name="introducao">Com esse aplicativo você terá mais controle de quanto o seu carro consome!</string>
-    <string name="o_que_compensa">O que compensa?</string>
+    <string name="o_que_compensa">O que compensa?*</string>
+    <string name="nota">*Esse cálculo só é válido para postos do Brasil.</string>
     <string name="rs_etanol">R$ Etanol</string>
     <string name="ou">ou</string>
     <string name="rs_gasolina">R$ Gasolina</string>
@@ -47,7 +48,7 @@
     <string name="list_odometro">ODOM</string>
     <string name="list_litros">LITROS</string>
     <string name="list_media">MEDIA</string>
-    <string name="list_obs">OBS</string>
+    <string name="list_obs">Oasdasdasdasdas acsac adas asdsa asdasBS</string>
 
     <string name="list_nome">NOME</string>
 

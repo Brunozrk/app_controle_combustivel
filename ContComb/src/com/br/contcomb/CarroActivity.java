@@ -3,7 +3,6 @@ package com.br.contcomb;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
@@ -25,7 +24,6 @@ import android.widget.SimpleCursorAdapter;
 
 import com.br.banco.BancoDeDados;
 import com.br.econocomb.R;
-import com.br.uteis.Messages;
 import com.br.uteis.Pages;
 import com.br.uteis.Uteis;
 import com.br.uteis.Variaveis;
