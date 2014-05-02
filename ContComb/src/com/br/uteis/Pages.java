@@ -7,4 +7,6 @@ public interface Pages {
 	int FORM_CARRO = 2;
 	int LISTAGEM_ABASTECIMENTOS = 3;
 	int FORM_ABASTECIMENTO = 4;
+	int LISTAGEM_LEMBRETES= 5;
+	int FORM_LEMBRETE = 6;
 }

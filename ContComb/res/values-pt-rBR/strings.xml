@@ -8,6 +8,7 @@
         <item>Página Inicial</item>
         <item>Carros</item>
         <item>Abastecimetos</item>
+        <item>Lembretes</item>
         <item>Contato</item>
         <item>Ajuda</item>
         <item>Sair</item>
@@ -34,6 +35,10 @@
     <string name="ajuda_campo_obrigatorio">• Os campos com asterisco (*) são obrigatórios.</string>
     <string name="ajuda_action_bar">• Atente-se para os botões na Action Bar.</string>
     <string name="ajuda_menu">• O menu fica ao lado esquerdo, clique no ícone do app.</string>
+
+    <string name="lembrete">Lembrete</string>
+	<string name="desc">Descrição *</string>
+    
     
     <string name="abastecimento">Abastecimento</string>
     <string name="carro">Carro</string>
@@ -48,12 +53,13 @@
     <string name="list_odometro">ODOM</string>
     <string name="list_litros">LITROS</string>
     <string name="list_media">MEDIA</string>
-    <string name="list_obs">Oasdasdasdasdas acsac adas asdsa asdasBS</string>
+    <string name="list_obs">OBS</string>
 
     <string name="list_nome">NOME</string>
 
     <string name="listagem_abastecimentos">Listagem - Abastecimentos</string>
     <string name="listagem_carros">Listagem - Carros</string>
+    <string name="listagem_lembretes">Listagem - Lembretes</string>
     
     <string name="cabec_data">DATA</string>
     <string name="cabec_odometro">KM</string>
@@ -65,6 +71,8 @@
     <string name="resumo_abastecimentos">Abastecimentos:</string>
     <string name="resumo_media_total">Média total:</string>
 
+    <string name="cabec_desc">Descrição</string>
+    
     <string name="filtro">Filtro...</string>
 
     <string name="contato">Contato</string>

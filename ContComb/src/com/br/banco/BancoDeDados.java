@@ -16,6 +16,7 @@ public class BancoDeDados{
 	private final String NOME_DO_BANCO = "econocomb";
 	private final String TABELA_CARRO = "tb_carro";
 	private final String TABELA_ABASTECIMENTO = "tb_abastecimento";
+	private final String TABELA_LEMBRETE = "tb_lembrete";
 	SQLiteDatabase bancoDeDados = null;
 	Uteis util = new Uteis();
 	
@@ -45,10 +46,20 @@ public class BancoDeDados{
 								   				  "carro_id INTEGER NOT NULL, " +
 								   				  "FOREIGN KEY(carro_id) REFERENCES "+TABELA_CARRO+"(_id) " +
 							   				  ");";
+
+			String sql_tabela_lembrete = "CREATE TABLE IF NOT EXISTS " + TABELA_LEMBRETE +
+	   				  "(" +
+		   				  "_id INTEGER PRIMARY KEY, " +
+		   				  "desc TEXT, " +
+		   				  "date DATE, " +
+		   				  "carro_id INTEGER NOT NULL, " +
+		   				  "FOREIGN KEY(carro_id) REFERENCES "+TABELA_CARRO+"(_id) " +
+	   				  ");";
 			
 
 			bancoDeDados.execSQL(sql_tabela_carro);
 			bancoDeDados.execSQL(sql_tabela_abastecimento);
+			bancoDeDados.execSQL(sql_tabela_lembrete);
 		} catch (Exception e) {
 			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_ABRIR_CRIAR + e.getMessage(), context);
 		}
@@ -128,8 +139,10 @@ public class BancoDeDados{
 
 			String sql_carro = "DELETE FROM " + TABELA_CARRO + " WHERE _id = " + idCarro;
 			String sql_abastecimento = "DELETE FROM " + TABELA_ABASTECIMENTO + " WHERE carro_id = " + idCarro;
+			String sql_lembrete = "DELETE FROM " + TABELA_LEMBRETE + " WHERE carro_id = " + idCarro;
 			bancoDeDados.execSQL(sql_carro);
 			bancoDeDados.execSQL(sql_abastecimento);
+			bancoDeDados.execSQL(sql_lembrete);
 			
 			return true;
 
@@ -354,6 +367,108 @@ public class BancoDeDados{
 
 	// ------------------------------------------------------------------------
 	// -------------------------------- FIM - ABASTECIMENTOS ------------------
+	// ------------------------------------------------------------------------
+	
+	
+	// ------------------------------------------------------------------------
+	// -------------------------------- LEMBRETES ------------------------
+	// ------------------------------------------------------------------------	
+	
+	/**
+	 * Filtra a listagem de lembretes pelo id do carro
+	 * @param idCarro
+	 * @return
+	 */
+	public Cursor filtraLembretePorCarroDataQuery(int idCarro, Context context){
+		try {
+			String select = "carro_id = ?";
+			String[] where = new String[]{Integer.toString(idCarro)};
+			
+			return bancoDeDados.query(TABELA_LEMBRETE, 
+									Variaveis.CAMPOS_LEMBRETE, 
+									select, 
+									where, 
+									null, 
+									null, 
+									"_id Desc");
+		} catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO, Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+			return null;
+		}
+	    
+	}
+
+	/**
+	 * Grava (insert ou update) um abastecimento no banco
+	 * @param context
+	 * @param desc
+	 * @param data
+	 * @param idCarro
+	 * @param idLembrete
+	 */
+	public int gravarLembreteQuery(Context context, String desc, StringBuilder data, int idCarro,  int idLembrete) {
+		try {
+
+			
+			String sql = "";
+			int sucesso = 0;
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			Date objDate = new Date();
+			String[] dataSplit = data.toString().split("/");
+			
+			objDate.setDate(Integer.parseInt(dataSplit[0]));
+			objDate.setMonth(Integer.parseInt(dataSplit[1]) - 1);
+			objDate.setYear(Integer.parseInt(dataSplit[2]) - 1900);
+			String date = sdf.format(objDate);
+			
+			if (idLembrete != 0) {
+				sql = "UPDATE " + TABELA_LEMBRETE  +
+						  			  " SET desc = '" + desc + "', " +
+									  "carro_id = '" + idCarro + "'" +
+									  " WHERE _id = " + idLembrete;
+				sucesso = 2;
+			} else {
+				sql = "INSERT INTO " + TABELA_LEMBRETE+ " (desc, date, carro_id) " +
+					  "VALUES ("+ "'" + desc + "', " +
+								  "'" + date + "', " +
+								  "'" + idCarro + "'" +
+								  ")";
+				
+				sucesso = 1;
+			}
+			
+			bancoDeDados.execSQL(sql);
+			return sucesso;
+		} catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
+			return 0;
+		}
+	}
+
+	/**
+	 * Excluir um abastecimento do banco
+	 * @param context
+	 * @param idLembrete
+	 */
+	public boolean excluirLembreteQuery(Context context, int idLembrete) {
+		try {
+
+			String sql = "DELETE FROM " + TABELA_LEMBRETE+ " WHERE _id = " + idLembrete;
+
+			bancoDeDados.execSQL(sql);
+
+			return true;
+
+		} catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
+			return false;
+		}
+	}
+
+	// ------------------------------------------------------------------------
+	// -------------------------------- FIM - LEMBRETES      ------------------
 	// ------------------------------------------------------------------------
 	
 }

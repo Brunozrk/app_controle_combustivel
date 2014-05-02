@@ -97,11 +97,13 @@ public abstract class BaseActivity extends ActionBarActivity {
 						break;
 				case 2: montaItemMenu(text, drawerListViewItems[2], R.drawable.ic_action_refuelling);
 						break;
-				case 3: montaItemMenu(text, drawerListViewItems[3], R.drawable.ic_action_email);
+				case 3: montaItemMenu(text, drawerListViewItems[3], R.drawable.ic_action_labels);
+						break;						
+				case 4: montaItemMenu(text, drawerListViewItems[4], R.drawable.ic_action_email);
 						break;
-				case 4: montaItemMenu(text, drawerListViewItems[4], R.drawable.ic_action_help_menu);
+				case 5: montaItemMenu(text, drawerListViewItems[5], R.drawable.ic_action_help_menu);
 						break;
-				case 5: montaItemMenu(text, drawerListViewItems[5], R.drawable.ic_action_cancel);
+				case 6: montaItemMenu(text, drawerListViewItems[6], R.drawable.ic_action_cancel);
 						break;
 				default:break;
 			}
@@ -217,18 +219,27 @@ public abstract class BaseActivity extends ActionBarActivity {
 						finish();
 					}
 					break;
+		    // Lembretes
+			case 3: if (banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO).getCount() == 0){
+						util.mostraToast(NAO_HA_CARRO_CADASTRADO, BaseActivity.this);
+					}else{
+						Intent iLembrete = new Intent(getBaseContext(), LembreteActivity.class);
+						startActivity(iLembrete);
+						finish();
+					}
+					break;					
 			// Contato
-			case 3: Intent iContato = new Intent(getBaseContext(), ContatoActivity.class);
+			case 4: Intent iContato = new Intent(getBaseContext(), ContatoActivity.class);
 		            startActivity(iContato);
 		            finish();
 		            break;					
             // Ajuda
-			case 4: Intent iAjuda = new Intent(getBaseContext(), AjudaActivity.class);
+			case 5: Intent iAjuda = new Intent(getBaseContext(), AjudaActivity.class);
 					startActivity(iAjuda);
 					finish();
 					break;					
 			// Sair
-			case 5: finish();
+			case 6: finish();
 					break;
 			// Nenhum dos outros
 			default: finish();
