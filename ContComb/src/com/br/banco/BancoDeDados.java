@@ -6,6 +6,7 @@ import java.util.Date;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.br.uteis.Messages;
 import com.br.uteis.Uteis;
@@ -52,11 +53,11 @@ public class BancoDeDados{
 		   				  "_id INTEGER PRIMARY KEY, " +
 		   				  "desc TEXT, " +
 		   				  "date DATE, " +
+ 						  "mostra TINYINT(1) DEFAULT 1, " +
 		   				  "carro_id INTEGER NOT NULL, " +
 		   				  "FOREIGN KEY(carro_id) REFERENCES "+TABELA_CARRO+"(_id) " +
 	   				  ");";
 			
-
 			bancoDeDados.execSQL(sql_tabela_carro);
 			bancoDeDados.execSQL(sql_tabela_abastecimento);
 			bancoDeDados.execSQL(sql_tabela_lembrete);
@@ -379,18 +380,18 @@ public class BancoDeDados{
 	 * @param idCarro
 	 * @return
 	 */
-	public Cursor filtraLembretePorCarroDataQuery(int idCarro, Context context){
+	public Cursor filtraLembretePorCarroQuery(int idCarro, Context context){
 		try {
-			String select = "carro_id = ?";
-			String[] where = new String[]{Integer.toString(idCarro)};
+			String query = "SELECT strftime('%d/%m/%Y', a.date) as date, a.desc, b.marca, a.mostra, a._id FROM "+ TABELA_LEMBRETE +" a INNER JOIN "+ TABELA_CARRO +" b ON a.carro_id=b._id";
+			if (idCarro != 0){
+				query += " WHERE a.carro_id=?";
+				query += " ORDER BY date DESC";
+				return bancoDeDados.rawQuery(query, new String[]{String.valueOf(idCarro)});
+			}else{
+				query += " ORDER BY date DESC";
+				return bancoDeDados.rawQuery(query, null);
+			}
 			
-			return bancoDeDados.query(TABELA_LEMBRETE, 
-									Variaveis.CAMPOS_LEMBRETE, 
-									select, 
-									where, 
-									null, 
-									null, 
-									"_id Desc");
 		} catch (Exception e) {
 			util.mostraMensagem(Messages.ERRO, Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
 			return null;
@@ -406,13 +407,13 @@ public class BancoDeDados{
 	 * @param idCarro
 	 * @param idLembrete
 	 */
-	public int gravarLembreteQuery(Context context, String desc, StringBuilder data, int idCarro,  int idLembrete) {
+	public int gravarLembreteQuery(Context context, String desc, StringBuilder data, boolean notifica, int idCarro,  int idLembrete) {
 		try {
 
 			
 			String sql = "";
 			int sucesso = 0;
-			
+			int mostra = notifica ? 1 : 0;
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 			Date objDate = new Date();
@@ -426,13 +427,16 @@ public class BancoDeDados{
 			if (idLembrete != 0) {
 				sql = "UPDATE " + TABELA_LEMBRETE  +
 						  			  " SET desc = '" + desc + "', " +
+						  			  "date = '" + date + "', " +
+						  			  "mostra = '" + mostra + "', " +
 									  "carro_id = '" + idCarro + "'" +
 									  " WHERE _id = " + idLembrete;
 				sucesso = 2;
 			} else {
-				sql = "INSERT INTO " + TABELA_LEMBRETE+ " (desc, date, carro_id) " +
+				sql = "INSERT INTO " + TABELA_LEMBRETE+ " (desc, date, mostra, carro_id) " +
 					  "VALUES ("+ "'" + desc + "', " +
 								  "'" + date + "', " +
+								  "'" + mostra + "', " +
 								  "'" + idCarro + "'" +
 								  ")";
 				
@@ -464,6 +468,38 @@ public class BancoDeDados{
 		} catch (Exception e) {
 			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_EXCLUIR + e.getMessage(), context);
 			return false;
+		}
+	}
+	
+	public Cursor filtraLembretesHoje(Context context){
+		try {
+			Date date = new Date();
+			String currentDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+			String query = "SELECT strftime('%d/%m/%Y', a.date) as date, a.desc, b.marca, a._id " +
+						   "FROM "+ TABELA_LEMBRETE +" a INNER JOIN "+ TABELA_CARRO +" b ON a.carro_id=b._id " +
+					   	   "WHERE a.date = ? AND mostra = 1";
+			return bancoDeDados.rawQuery(query, new String[]{String.valueOf(currentDate)});
+			
+		} catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO, Messages.ERRO_CARREGAR_REGISTRO + e.getMessage(), context);
+			return null;
+		}
+	}
+	
+	public void marcaParaNaoMostrar(Context context){
+		try {
+			Cursor cursorLembretesHoje = filtraLembretesHoje(context);
+			String query = "";
+			if (cursorLembretesHoje.moveToFirst()) {
+			    do {
+			    	query = "UPDATE " + TABELA_LEMBRETE + " " +
+			    			"SET mostra = 0 WHERE _id = " + cursorLembretesHoje.getInt(cursorLembretesHoje.getColumnIndex("_id"));
+			    	bancoDeDados.execSQL(query);
+			    } while (cursorLembretesHoje.moveToNext());
+			}
+			
+		} catch (Exception e) {
+			util.mostraMensagem(Messages.ERRO, Messages.BANCO_ERRO_SALVAR_EDITAR + e.getMessage(), context);
 		}
 	}
 

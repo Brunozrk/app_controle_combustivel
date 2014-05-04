@@ -1,11 +1,15 @@
 package com.br.contcomb;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,8 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.br.banco.BancoDeDados;
@@ -73,6 +77,40 @@ public abstract class BaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         inicializaMensagens();
         banco_de_dados = new BancoDeDados(BaseActivity.this);
+        verificaLembretes();
+        
+    }
+    
+    public void verificaLembretes(){
+    	Cursor cursorLembretesHoje = banco_de_dados.filtraLembretesHoje(BaseActivity.this);
+    	String notificacao = "";
+		if (cursorLembretesHoje.moveToFirst()) {
+		    do {
+		    	notificacao += cursorLembretesHoje.getString(cursorLembretesHoje.getColumnIndex("marca")) + ": " + cursorLembretesHoje.getString(cursorLembretesHoje.getColumnIndex("desc"));
+		    } while (cursorLembretesHoje.moveToNext());
+		}
+		if (notificacao != ""){
+			mostraMensagemComCheckbox(notificacao);
+		}
+    }
+    
+    public void mostraMensagemComCheckbox(String msg){
+    	LayoutInflater inflater = getLayoutInflater();
+    	View customView = inflater.inflate(R.layout.dialog_checkbox, null);
+    	final CheckBox naoMostraNovamente = (CheckBox) customView.findViewById(R.id.naoMostraNovamente);
+    	new AlertDialog.Builder(this)
+							    	.setView(customView)
+							    	.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							    	    @Override
+							    	    public void onClick(DialogInterface dialog, int which) {
+							    	        if( naoMostraNovamente.isChecked() ) {
+							    	        	banco_de_dados.marcaParaNaoMostrar(BaseActivity.this);
+							    	        }
+							    	    }
+							    	})
+							    	.setTitle(getResources().getString(R.string.lembrete))
+							    	.setMessage(msg)
+							    	.show();
     }
     
     /**

@@ -22,7 +22,16 @@
             android:id="@+id/tvDesc"
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="73"
+            android:layout_weight="27"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:id="@+id/tvCarro"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="27"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" />

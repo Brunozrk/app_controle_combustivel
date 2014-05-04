@@ -35,7 +35,12 @@
     <string name="ajuda_campo_obrigatorio">• Fields with an asterisk (*) are required.</string>
     <string name="ajuda_action_bar">• Pay attention to the buttons on the Action Bar.</string>
     <string name="ajuda_menu">• Menu is on the left side, click on the app icon.</string>
+    <string name="ajuda_lembrete">• In notes, if a record is included with "Notify" is active and the current date, an alert will be displayed when accessing the app with the description of the note.</string>
 
+    <string name="lembrete">Note</string>
+	<string name="desc">Description *</string>
+	<string name="notificar">Notify</string>
+    
     <string name="abastecimento">Supply</string>
     <string name="carro">Car</string>
     <string name="odometro">Odometer (Km) *</string>
@@ -55,6 +60,7 @@
 
     <string name="listagem_abastecimentos">List - Supplies</string>
     <string name="listagem_carros">List - Cars</string>
+    <string name="listagem_lembretes">List - Notes</string>
     
     <string name="cabec_data">DATE</string>
     <string name="cabec_odometro">KM</string>
@@ -66,6 +72,9 @@
     <string name="resumo_abastecimentos">Supplies:</string>
     <string name="resumo_media_total">Total Average:</string>
 
+    <string name="cabec_desc">Description</string>
+    <string name="cabec_marca">Brand</string>
+    
     <string name="filtro">Filter...</string>
     
     <string name="contato">Contact</string>

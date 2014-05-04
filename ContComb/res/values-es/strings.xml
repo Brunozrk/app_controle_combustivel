@@ -8,6 +8,7 @@
         <item>Página Principal</item>
         <item>Coches</item>
         <item>Suministros</item>
+        <item>Notas</item>
         <item>Contacto</item>
         <item>Ayuda</item>
         <item>Salir</item>
@@ -34,6 +35,11 @@
     <string name="ajuda_campo_obrigatorio">• Los campos con asterisco (*) son obligatorios.</string>
     <string name="ajuda_action_bar">• Preste atención a los botones de la barra de acción.</string>
     <string name="ajuda_menu">• El menú está en el lado izquierdo , haga clic en el icono de la aplicación .</string>
+    <string name="ajuda_lembrete">• En las notas, si un registro se incluye en "Notificar" está activa y la fecha actual, una alerta se mostrará al acceder a la aplicación con la descripción de la nota.</string>
+    
+   	<string name="lembrete">Nota</string>
+	<string name="desc">Descripción *</string>
+	<string name="notificar">Notificar</string>
     
     <string name="abastecimento">Suministro</string>
     <string name="carro">Coche</string>
@@ -54,6 +60,7 @@
 
     <string name="listagem_abastecimentos">Lista - Suministros</string>
     <string name="listagem_carros">Lista - Coches</string>
+    <string name="listagem_lembretes">List - Notas</string>
     
     <string name="cabec_data">FECHA</string>
     <string name="cabec_odometro">KM</string>
@@ -65,6 +72,9 @@
     <string name="resumo_abastecimentos">Suministros:</string>
     <string name="resumo_media_total">Total promedio:</string>
 
+    <string name="cabec_desc">Descripción</string>
+    <string name="cabec_marca">Marca</string>
+    
     <string name="filtro">Filtro...</string>
 
     <string name="contato">Contacto</string>

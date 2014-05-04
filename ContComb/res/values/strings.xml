@@ -35,9 +35,11 @@
     <string name="ajuda_campo_obrigatorio">• Os campos com asterisco (*) são obrigatórios.</string>
     <string name="ajuda_action_bar">• Atente-se para os botões na Action Bar.</string>
     <string name="ajuda_menu">• O menu fica ao lado esquerdo, clique no ícone do app.</string>
+    <string name="ajuda_lembrete">• Em lembretes, se um registro for incluído com o "Notificar" ativo e a data for a corrente, um alerta será exibido ao acessar o app com a descrição do lembrete.</string>
 
     <string name="lembrete">Lembrete</string>
 	<string name="desc">Descrição *</string>
+	<string name="notificar">Notificar</string>
     
     
     <string name="abastecimento">Abastecimento</string>
@@ -72,6 +74,7 @@
     <string name="resumo_media_total">Média total:</string>
 
     <string name="cabec_desc">Descrição</string>
+    <string name="cabec_marca">Marca</string>
     
     <string name="filtro">Filtro...</string>
 

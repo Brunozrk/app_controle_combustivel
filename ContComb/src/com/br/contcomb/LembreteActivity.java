@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -49,6 +50,7 @@ public class LembreteActivity extends BaseActivity {
 	BancoDeDados banco_de_dados;
 
 	EditText etDesc;
+	CheckBox chNotifica;
 	
 	String dataFiltro = "";
 	int idCarro = 0;
@@ -102,7 +104,7 @@ public class LembreteActivity extends BaseActivity {
 	public void carregaListaLembretes(){
 		setContentView(R.layout.listagem_lembretes);
 		inicializaDados();
-		carregaSpinnerCarro();
+		carregaSpinnerCarro(true);
 		idLembrete = 0;
 		
 		// Captura e filtra
@@ -154,7 +156,7 @@ public class LembreteActivity extends BaseActivity {
 		supportInvalidateOptionsMenu();
 		setContentView(R.layout.form_lembrete);
 		inicializaDados();
-		carregaSpinnerCarro();
+		carregaSpinnerCarro(false);
 		capturaItemSelecionadoSpinnerParaGravar();
 
         // Adiciona listener para o botao do datepicker
@@ -177,7 +179,7 @@ public class LembreteActivity extends BaseActivity {
 				util.mostraMensagem(CAMPO_OBRIGATORIO_TITULO, CAMPO_OBRIGATORIO, LembreteActivity.this);
 			}
 			else{
-				int retorno = banco_de_dados.gravarLembreteQuery(LembreteActivity.this, desc, data, idCarro, idLembrete);
+				int retorno = banco_de_dados.gravarLembreteQuery(LembreteActivity.this, desc, data, chNotifica.isChecked(), idCarro, idLembrete);
 				if (retorno == 1){
 					util.mostraToast(SUCESSO_CADASTRO, LembreteActivity.this);
 				}else{
@@ -227,7 +229,7 @@ public class LembreteActivity extends BaseActivity {
 			int postionCursorSpinnerCarro = cursorSpinnerCarro.getPosition();
 			
 			// Atualiza data para a data do registro a ser editado
-			String dataColumn = cursor.getString(cursor.getColumnIndex("strftime('%d/%m/%Y',date)"));
+			String dataColumn = cursor.getString(cursor.getColumnIndex("date"));
 			atualizaValoresData(util.convertStringParaInt(dataColumn.split("/")[0]), util.convertStringParaInt(dataColumn.split("/")[1]) - 1, util.convertStringParaInt(dataColumn.split("/")[2]));
 			Calendar c = Calendar.getInstance();
 			c.set(dpAno, dpMes, dpDia);
@@ -238,6 +240,8 @@ public class LembreteActivity extends BaseActivity {
 			etDesc.setText(cursor.getString(cursor.getColumnIndex("desc")));
 			spCarros.setSelection(postionCursorSpinnerCarro);
 			
+			chNotifica.setChecked(cursor.getInt(cursor.getColumnIndex("mostra")) == 1 ? true : false);
+			
 		} catch (Exception e) {
 			util.mostraMensagem(ERRO, ERRO_CARREGAR_REGISTRO + e.getMessage(), LembreteActivity.this);
 		}
@@ -246,10 +250,15 @@ public class LembreteActivity extends BaseActivity {
 	/**
 	 * Carrega spinner com os carros cadastrados
 	 */
-	public void carregaSpinnerCarro(){
+	public void carregaSpinnerCarro(Boolean adiciona_todos){
 		cursorSpinnerCarro = banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO);
 		List<String> nomes = new ArrayList<String>();
 		cursorSpinnerCarro.moveToFirst();
+		if (adiciona_todos){
+//			nomes.add("Todos");
+//			faca nada ainda
+		}
+
 		idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
 		while(!cursorSpinnerCarro.isAfterLast()){
 			nomes.add(cursorSpinnerCarro.getString(cursorSpinnerCarro.getColumnIndex("marca")));
@@ -290,8 +299,13 @@ public class LembreteActivity extends BaseActivity {
 			
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-				cursorSpinnerCarro.moveToPosition(position);
-				idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
+//				position--;
+//				if (position < 0){
+//					idCarro = 0;
+//				}else{
+					cursorSpinnerCarro.moveToPosition(position);
+					idCarro = cursorSpinnerCarro.getInt(cursorSpinnerCarro.getColumnIndex("_id"));
+//				}
 				filtraListaLembretes();
 			}
 			
@@ -304,12 +318,12 @@ public class LembreteActivity extends BaseActivity {
 	
 	@SuppressWarnings("deprecation")
 	public void filtraListaLembretes(){
-		cursor = banco_de_dados.filtraLembretePorCarroDataQuery(idCarro, LembreteActivity.this);
+		cursor = banco_de_dados.filtraLembretePorCarroQuery(idCarro, LembreteActivity.this);
 		dataSource = new SimpleCursorAdapter(LembreteActivity.this, 
 											R.layout.item_list_lembrete, 
 											cursor, 
 											Variaveis.CAMPOS_LEMBRETE, 
-											new int[] { R.id.tvData, R.id.tvDesc});
+											new int[] { R.id.tvData, R.id.tvDesc, R.id.tvCarro});
 		listContentLembretes.setAdapter(dataSource);
 //		((SimpleCursorAdapter) dataSource).setViewBinder(binder);
 	}
@@ -373,6 +387,9 @@ public class LembreteActivity extends BaseActivity {
 		
 		// Edit Text
 		etDesc = (EditText) findViewById(R.id.etDesc);
+		
+		// Check Box
+		chNotifica = (CheckBox) findViewById(R.id.chNotifica);
 
 		// Text View
 		tvData = (TextView) findViewById(R.id.tvData);
