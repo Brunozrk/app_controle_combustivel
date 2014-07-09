@@ -10,7 +10,8 @@
         <item>Abastecimetos</item>
         <item>Lembretes</item>
         <item>Contato</item>
-        <item>Ajuda</item>
+        <item>Ajuda</item>]
+        <item>ContComb On</item>
         <item>Sair</item>
     </string-array>
     
@@ -107,4 +108,27 @@
 
     <string name="drawer_open">Abrir navigation drawer</string>
     <string name="drawer_close">Fechar navigation drawer</string>
+    
+    <!-- Cont Comb On -->
+    <string name="contcombon">ContComb On</string>
+    <string name="contcombon_introducao">Aplicativo do contcomb, só que agora online!</string>
+    <string name="contcombon_novidades">Novidades:</string>
+    
+    <string name="contcombon_1">• Mantenha seus dados salvos na web, ou seja, acesse de qualquer dispositivo!.</string>
+    <string name="contcombon_2">• Em breve, além do aplicativo, um site será lançado para que você possa acessar do seu computador os mesmos dados!</string>
+    <string name="contcombon_3">• Além de controlar o consumo do seu carro, nessa versão é possível obter um resumo mais detalhado sobre seus abastecimentos.</string>
+    <string name="contcombon_4">• Você também conseguirá analisar os outros veículos cadastrados, sabendo quais são os mais econômicos!</string>
+    <string name="contcombon_5">• Compare a média do seu veículo com a média de outro veículos do mesmo modelo que o seu!</string>
+    <string name="contcombon_6">• Faça o download e/ou importe os dados clicando no link:</string>
+    <string name="download">Download</string>
+    <string name="importar">Importar Dados</string>
+    <string name="km_atual">Kilometragem atual *</string>
+    <string name="km_andados">Km`s andandos a partir do último abastecimento  *</string>
+    <string name="ano">Ano *</string>
+    <string name="motor">Motor *</string>
+    <string name="motor_hint">1.0, 1.6...</string>
+    <string name="login">Login *</string>
+    <string name="senha">Senha *</string>
+    <string name="enviando">Enviando...</string>
+    <string name="importado_sucesso">Dados importados com sucesso!</string>
 </resources>

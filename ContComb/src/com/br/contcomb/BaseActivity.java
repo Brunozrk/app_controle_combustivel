@@ -114,7 +114,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
     
     /**
-     * Classe para adaptar o array e colocar ícones nos itens do menu
+     * Classe para adaptar o array e colocar ï¿½cones nos itens do menu
      *
      */
     private class MyArrayAdapter extends ArrayAdapter<String>{
@@ -141,7 +141,9 @@ public abstract class BaseActivity extends ActionBarActivity {
 						break;
 				case 5: montaItemMenu(text, drawerListViewItems[5], R.drawable.ic_action_help_menu);
 						break;
-				case 6: montaItemMenu(text, drawerListViewItems[6], R.drawable.ic_action_cancel);
+				case 6: montaItemMenu(text, drawerListViewItems[6], R.drawable.ic_action_web_site);
+						break;						
+				case 7: montaItemMenu(text, drawerListViewItems[7], R.drawable.ic_action_cancel);
 						break;
 				default:break;
 			}
@@ -238,7 +240,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
 	    	
 	    	switch (position) {
-	    	// Página Inicial
+	    	// Pï¿½gina Inicial
 			case 0:	Intent iMain = new Intent(getBaseContext(), MainActivity.class);
 		            startActivity(iMain);
 		            finish();
@@ -275,9 +277,18 @@ public abstract class BaseActivity extends ActionBarActivity {
 			case 5: Intent iAjuda = new Intent(getBaseContext(), AjudaActivity.class);
 					startActivity(iAjuda);
 					finish();
-					break;					
+					break;
+            // ContComb On
+			case 6: if (banco_de_dados.buscaCarrosQuery(Variaveis.CAMPOS_CARRO).getCount() == 0){
+						util.mostraToast(NAO_HA_CARRO_CADASTRADO, BaseActivity.this);
+					}else{
+						Intent iContCombOn = new Intent(getBaseContext(), ContCombOnActivity.class);
+						startActivity(iContCombOn);
+						finish();
+					}
+					break;						
 			// Sair
-			case 6: finish();
+			case 7: finish();
 					break;
 			// Nenhum dos outros
 			default: finish();
@@ -287,8 +298,8 @@ public abstract class BaseActivity extends ActionBarActivity {
 	    }
 	}
 	/**
-	 * Inicializa variáveis com mensagens do string.xml
-	 * Isso é feito para internacionalização do aplicativo
+	 * Inicializa variï¿½veis com mensagens do string.xml
+	 * Isso ï¿½ feito para internacionalizaï¿½ï¿½o do aplicativo
 	 */
 	public void inicializaMensagens(){
 		

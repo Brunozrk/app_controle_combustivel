@@ -2,6 +2,9 @@ package com.br.uteis;
 
 import java.text.NumberFormat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +16,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 public class Uteis {
+	
+	public JSONObject convertStringToJson(String value){
+		try {
+			return new JSONObject(value);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	public String tresCasasDecimais(Double valor){
 		NumberFormat nf = NumberFormat.getInstance();
@@ -105,7 +118,7 @@ public class Uteis {
 	
 	
 	/**
-	 * Faz a animação do registro da listview ir para a direita
+	 * Faz a animaï¿½ï¿½o do registro da listview ir para a direita
 	 * @param context
 	 * @param view
 	 * @param func
